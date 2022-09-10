@@ -8,13 +8,27 @@ use std::{
 
 use serde::{Deserialize, Serialize};
 
-use crate::error::Result;
+/// Config directory
+pub const CONFIG_DIR: &str = ".repo";
 
-/// Configuration directory
-pub const CONFIG_DIR: &str = ".gitx";
-
-/// Configuration file name
+/// Config file name
 pub const CONFIG_FILE: &str = "config.toml";
+
+/// Configuration object
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+pub struct Config {
+    /// Root directory
+    #[serde(skip)]
+    pub root_dir: PathBuf,
+    /// Commits config
+    pub commit: CommitsConfig,
+    /// Custom hooks
+    pub hooks: BTreeMap<String, Vec<String>>,
+    /// Changelog config
+    pub changelog: ChangeLogConfig,
+    /// Release config
+    pub release: ReleaseConfig,
+}
 
 /// Commits configuration
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -79,22 +93,6 @@ impl Default for ChangeLogConfig {
 pub struct ReleaseConfig {
     /// Commands to execute when the version is bumped
     pub bump_commands: Vec<String>,
-}
-
-/// Configuration object
-#[derive(Debug, Clone, Serialize, Deserialize, Default)]
-pub struct Config {
-    /// Root directory
-    #[serde(skip)]
-    pub root_dir: PathBuf,
-    /// Commits config
-    pub commit: CommitsConfig,
-    /// Custom hooks
-    pub hooks: BTreeMap<String, Vec<String>>,
-    /// Changelog config
-    pub changelog: ChangeLogConfig,
-    /// Release config
-    pub release: ReleaseConfig,
 }
 
 impl Config {

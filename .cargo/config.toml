@@ -1,0 +1,5 @@
+[alias]
+repo = "run --"
+
+[env]
+RUST_LOG = "off"

@@ -1,10 +1,14 @@
 [package]
-name = "gitext"
-version = "0.0.17"
+name = "repo-tools"
+version = "0.1.0"
 edition = "2021"
-description = "Git extensions and tools"
-license = "MIT"
-repository = "https://github.com/nlargueze/gitext"
+description = "Repo tooling"
+repository = "https://github.com/nlargueze/repo"
+publish = false
+
+# [[bin]]
+# name = "git-install-hooks"
+# path = "src/bin/git-install-hooks.rs"
 
 # [[bin]]
 # name = "git-install-hooks"
@@ -34,10 +38,17 @@ repository = "https://github.com/nlargueze/gitext"
 # name = "git-release"
 # path = "src/bin/git-release.rs"
 
-# [dependencies]
+[dependencies]
+anyhow = "1.0.64"
 # atty = "0.2.14"
 # chrono = { version = "0.4.19", features = ["serde"] }
-# clap = { version = "3.1.8", features = ["derive"] }
+clap = { version = "3.2.20", features = ["derive"] }
+colored = "2.0.0"
+dialoguer = "0.10.2"
+indoc = "1.0.7"
+regex = "1.6.0"
+serde = { version = "1.0.144", features = ["derive"] }
+toml = "0.5.9"
 # console = "0.15.0"
 # dialoguer = "0.10.0"
 # env_logger = "0.9.0"

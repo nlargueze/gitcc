@@ -1,3 +1,5 @@
-This crate name was deprecated.
+# Repo
 
-If you want to use this crate name, please contact me at https://github.com/nlargueze.
+## Usage
+
+`repo --help`
