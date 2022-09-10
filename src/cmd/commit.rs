@@ -91,14 +91,6 @@ fn ask_for_commit_message(config: &Config) -> anyhow::Result<ConvCommitMessage> 
         commit_types_keys[i].clone()
     };
 
-    // > subject
-    let subject = Input::<String>::with_theme(&ColorfulTheme::default())
-        .with_prompt("Commit subject")
-        .report(true)
-        .interact_text()?
-        .trim()
-        .to_lowercase_first();
-
     // > scope
     let scope = {
         let scope: String = Input::with_theme(&ColorfulTheme::default())
@@ -112,6 +104,14 @@ fn ask_for_commit_message(config: &Config) -> anyhow::Result<ConvCommitMessage> 
             Some(scope.to_lowercase())
         }
     };
+
+    // > subject
+    let subject = Input::<String>::with_theme(&ColorfulTheme::default())
+        .with_prompt("Commit subject")
+        .report(true)
+        .interact()?
+        .trim()
+        .to_lowercase_first();
 
     // > body
     let body = {

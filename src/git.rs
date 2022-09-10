@@ -17,7 +17,7 @@ pub fn add() -> anyhow::Result<String> {
     let stderr = String::from_utf8(output.stderr)?;
 
     if !output.status.success() {
-        bail!(stderr);
+        bail!(format!("{stdout}{stderr}"));
     }
 
     Ok(stdout)
@@ -35,7 +35,7 @@ pub fn commit(msg: &str) -> anyhow::Result<String> {
     let stderr = String::from_utf8(output.stderr)?;
 
     if !output.status.success() {
-        bail!(stderr);
+        bail!(format!("{stdout}{stderr}"));
     }
 
     Ok(stdout)
@@ -52,7 +52,7 @@ pub fn push() -> anyhow::Result<String> {
     let stderr = String::from_utf8(output.stderr)?;
 
     if !output.status.success() {
-        bail!(stderr);
+        bail!(format!("{stdout}{stderr}"));
     }
 
     Ok(stdout)
@@ -69,7 +69,7 @@ pub fn push_follow_tags() -> anyhow::Result<String> {
     let stderr = String::from_utf8(output.stderr)?;
 
     if !output.status.success() {
-        bail!(stderr);
+        bail!(format!("{stdout}{stderr}"));
     }
 
     Ok(stdout)
