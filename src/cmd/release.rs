@@ -22,13 +22,13 @@ pub struct ReleaseArgs {
     cwd: Option<PathBuf>,
     /// Allows uncommitted changes when creating the release
     #[clap(long)]
-    pub allow_dirty: bool,
+    allow_dirty: bool,
     /// Dry-run
     #[clap(long)]
-    pub dry_run: bool,
+    dry_run: bool,
     /// Push the changes
     #[clap(long, short)]
-    pub push: bool,
+    push: bool,
 }
 
 /// Creates a release
