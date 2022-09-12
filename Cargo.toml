@@ -4,11 +4,9 @@ version = "0.1.1"
 edition = "2021"
 description = "Repo tooling"
 repository = "https://github.com/nlargueze/repo"
-publish = false
 
 [dependencies]
 anyhow = "1.0.64"
-
 clap = { version = "3.2.20", features = ["derive"] }
 colored = "2.0.0"
 dialoguer = "0.10.2"
