@@ -23,9 +23,9 @@ pub struct ReleaseArgs {
     /// Allows uncommitted changes when creating the release
     #[clap(long)]
     pub allow_dirty: bool,
-    /// Skips the commit
+    /// Dry-run
     #[clap(long)]
-    pub no_commit: bool,
+    pub dry_run: bool,
     /// Push the changes
     #[clap(long, short)]
     pub push: bool,
@@ -64,10 +64,17 @@ pub fn run(args: ReleaseArgs) -> anyhow::Result<()> {
     eprintln!("{} New version: {}", "✔".bright_green(), latest_version);
 
     let changelog_str = changelog.generate(ChangelogFormat::Full)?;
+    let releasenotes_str = changelog.generate(ChangelogFormat::LatestRelease)?;
+
+    // Skip if flag `no-commit` is set
+    if args.dry_run {
+        eprintln!("{} Stopped because of dry-run", "i".bright_cyan());
+        println!("{}", changelog_str);
+        return Ok(());
+    }
+
     fs::write(config.repo_dir.join("CHANGELOG.md"), changelog_str)?;
     eprintln!("{} Changelog generated", "✔".bright_green());
-
-    let releasenotes_str = changelog.generate(ChangelogFormat::LatestRelease)?;
     fs::write(config.repo_dir.join("RELEASE_NOTES.md"), releasenotes_str)?;
     eprintln!("{} Release notes generated", "✔".bright_green());
 
@@ -79,11 +86,6 @@ pub fn run(args: ReleaseArgs) -> anyhow::Result<()> {
             eprintln!("> {}", cmd);
             eprintln!("{}", stdout);
         }
-    }
-
-    // Skip if flag `no-commit` is set
-    if args.no_commit {
-        return Ok(());
     }
 
     // Add changes and create new commit
@@ -104,9 +106,13 @@ pub fn run(args: ReleaseArgs) -> anyhow::Result<()> {
     eprintln!("{}", _git_tag_out);
 
     // Push the commit and the tags
-    let _git_push_out = git::push(true)?;
-    eprintln!("{} Pushed", "✔".bright_green());
-    eprintln!("{}", _git_push_out);
+    if args.push {
+        let _git_push_out = git::push(true)?;
+        eprintln!("{} Pushed", "✔".bright_green());
+        eprintln!("{}", _git_push_out);
+    } else {
+        eprintln!("{} Not pushed to remote", "i".bright_cyan());
+    }
 
     Ok(())
 }
