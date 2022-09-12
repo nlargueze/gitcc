@@ -1,6 +1,6 @@
 [package]
 name = "repo-tools"
-version = "0.0.17"
+version = "0.0.18"
 edition = "2021"
 description = "Repo tooling"
 repository = "https://github.com/nlargueze/repo"
