@@ -1,62 +1,28 @@
 [package]
 name = "repo-tools"
-version = "0.1.0"
+version = "0.0.17"
 edition = "2021"
 description = "Repo tooling"
 repository = "https://github.com/nlargueze/repo"
 publish = false
 
-# [[bin]]
-# name = "git-install-hooks"
-# path = "src/bin/git-install-hooks.rs"
-
-# [[bin]]
-# name = "git-install-hooks"
-# path = "src/bin/git-install-hooks.rs"
-
-# [[bin]]
-# name = "git-lint"
-# path = "src/bin/git-lint.rs"
-
-# [[bin]]
-# name = "git-c"
-# path = "src/bin/git-c.rs"
-
-# [[bin]]
-# name = "git-amend"
-# path = "src/bin/git-amend.rs"
-
-# [[bin]]
-# name = "git-bump"
-# path = "src/bin/git-bump.rs"
-
-# [[bin]]
-# name = "git-changelog"
-# path = "src/bin/git-changelog.rs"
-
-# [[bin]]
-# name = "git-release"
-# path = "src/bin/git-release.rs"
-
 [dependencies]
 anyhow = "1.0.64"
-# atty = "0.2.14"
-# chrono = { version = "0.4.19", features = ["serde"] }
+
 clap = { version = "3.2.20", features = ["derive"] }
 colored = "2.0.0"
 dialoguer = "0.10.2"
+handlebars = "4.3.3"
+heck = "0.4.0"
+indexmap = { version = "1.9.1", features = ["serde"] }
 indoc = "1.0.7"
 regex = "1.6.0"
+semver = { version = "1.0.13", features = ["serde"] }
 serde = { version = "1.0.144", features = ["derive"] }
+time = { version = "0.3.14", features = [
+    "serde",
+    "parsing",
+    "formatting",
+    "macros",
+] }
 toml = "0.5.9"
-# console = "0.15.0"
-# dialoguer = "0.10.0"
-# env_logger = "0.9.0"
-# handlebars = "4.2.2"
-# indoc = "1.0.4"
-# log = "0.4.16"
-# regex = "1.5.5"
-# semver = "1.0.7"
-# serde = { version = "1.0.136", features = ["derive"] }
-# thiserror = "1.0.30"
-# toml = "0.5.8"

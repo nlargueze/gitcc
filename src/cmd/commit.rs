@@ -7,7 +7,7 @@ use colored::Colorize;
 use dialoguer::{theme::ColorfulTheme, Confirm, Editor, Input, Select};
 
 use crate::{
-    cmd::init::generate_configuration, config::Config, conv::ConvCommitMessage, git,
+    cmd::init::generate_configuration, commit::ConvCommitMessage, config::Config, git,
     util::StringExt,
 };
 
@@ -33,7 +33,6 @@ pub fn run(args: CommitArgs) -> anyhow::Result<()> {
     let mut config = Config::load()?;
 
     // Ask for config generation
-    eprintln!();
     if config.is_none() {
         eprintln!("{} No configuration found", "i".bright_cyan());
         config = Some(generate_configuration(true)?);

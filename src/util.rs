@@ -1,5 +1,5 @@
-//! Misc utilities
-//!
+//! Misc. utilities
+
 /// Additional methods for strings
 pub trait StringExt {
     /// Checks if the string is all lowercase

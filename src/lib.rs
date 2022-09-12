@@ -1,10 +1,11 @@
 //! Repo tooling
 
 mod changelog;
+mod commit;
 mod config;
-mod conv;
 mod git;
-mod hooks;
+mod hook;
+mod release;
 mod util;
 
 pub mod cmd;

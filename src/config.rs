@@ -4,7 +4,9 @@ use std::{env, fs, path::PathBuf};
 
 use serde::{Deserialize, Serialize};
 
-use crate::{conv::CommitsConfig, hooks::HooksConfig};
+use crate::{
+    changelog::ChangelogConfig, commit::CommitsConfig, hook::HooksConfig, release::ReleaseConfig,
+};
 
 /// Config directory
 pub const CONFIG_DIR: &str = ".repo";
@@ -17,15 +19,21 @@ pub const CONFIG_FILE: &str = "config.toml";
 pub struct Config {
     /// Repo directory
     #[serde(skip)]
+    #[serde(default = "set_repo_dir")]
     pub repo_dir: PathBuf,
     /// Commits config
     pub commits: CommitsConfig,
     /// Git hooks config
     pub hooks: HooksConfig,
-    // /// Changelog config
-    // pub changelog: ChangeLogConfig,
-    // /// Release config
-    // pub release: ReleaseConfig,
+    /// Changelog config
+    pub changelog: ChangelogConfig,
+    /// Release config
+    pub release: ReleaseConfig,
+}
+
+/// Sets the default repo dir
+fn set_repo_dir() -> PathBuf {
+    env::current_dir().unwrap()
 }
 
 impl Config {
@@ -67,8 +75,8 @@ impl Config {
         Ok(())
     }
 
-    /// Returns the folder for hook
-    pub fn hooks_folder(&self) -> PathBuf {
+    /// Returns the folder for hooks scripts
+    pub fn hooks_dir(&self) -> PathBuf {
         self.repo_dir.join(CONFIG_DIR).join("hooks")
     }
 }

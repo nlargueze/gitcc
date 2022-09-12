@@ -15,3 +15,12 @@ style = "Code styling"
 test = "Testing"
 
 [hooks]
+[changelog.groups]
+"New features" = ["feat"]
+"Bug fixes" = ["fix"]
+Documentation = ["docs"]
+"Performance improvements" = ["perf"]
+Tooling = ["build", "ci", "cd"]
+
+[release]
+bump_commands = ["set-cargo-version ./Cargo.toml {version}"]

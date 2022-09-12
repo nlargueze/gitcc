@@ -29,7 +29,6 @@ pub fn run(args: InitArgs) -> anyhow::Result<()> {
 
     // Ask for config generation if not found
     if config.is_some() {
-        println!();
         println!("{} Repo is already configured", "i".bright_cyan());
         match Confirm::with_theme(&ColorfulTheme::default())
             .with_prompt("Do you want to reset the config ?")
