@@ -55,7 +55,7 @@ pub fn run(args: CommitArgs) -> anyhow::Result<()> {
 
     // git push
     if args.push {
-        let stdout = git::push()?;
+        let stdout = git::push(false)?;
         eprintln!("{} Pushed commit", "✔".bright_green());
         eprintln!("{}", stdout);
     }

@@ -242,7 +242,7 @@ impl Changelog {
 
     /// Retrieves the latest version
     pub fn latest_version(&self) -> Option<Version> {
-        self.releases.first().map(|r| r.version.clone()).flatten()
+        self.releases.first().and_then(|r| r.version.clone())
     }
 }
 

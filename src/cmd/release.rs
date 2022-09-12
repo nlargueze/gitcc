@@ -96,11 +96,17 @@ pub fn run(args: ReleaseArgs) -> anyhow::Result<()> {
     eprintln!("{} Committed", "✔".bright_green());
     eprintln!("{}", _git_commit_out);
 
-    // // Tag the commit
-    // let x = git::tag(tag, msg)?;
+    // Tag the commit
+    let tag = format!("v{}", latest_version);
+    let tag_msg = format!(" Release {}", latest_version);
+    let _git_tag_out = git::tag(&tag, &tag_msg)?;
+    eprintln!("{} Tagged as {}", "✔".bright_green(), tag);
+    eprintln!("{}", _git_tag_out);
 
-    // // Push the commit
-    // let x = git::push()?;
+    // Push the commit and the tags
+    let _git_push_out = git::push(true)?;
+    eprintln!("{} Pushed", "✔".bright_green());
+    eprintln!("{}", _git_push_out);
 
     Ok(())
 }

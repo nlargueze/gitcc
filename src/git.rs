@@ -48,24 +48,12 @@ pub fn commit(msg: &str) -> anyhow::Result<String> {
 }
 
 /// Wrapper for `git push`
-pub fn push() -> anyhow::Result<String> {
-    let output = Command::new("git").args(["push"]).output()?;
-
-    let stdout = String::from_utf8(output.stdout)?;
-    let stderr = String::from_utf8(output.stderr)?;
-
-    if !output.status.success() {
-        bail!(format!("{stdout}{stderr}"));
+pub fn push(follow_tags: bool) -> anyhow::Result<String> {
+    let mut args = vec!["push"];
+    if follow_tags {
+        args.push("--follow-tags")
     }
-
-    Ok(stdout)
-}
-
-/// Wrapper for `git push --follow-tags`
-pub fn push_follow_tags() -> anyhow::Result<String> {
-    let output = Command::new("git")
-        .args(["push", "--follow-tags"])
-        .output()?;
+    let output = Command::new("git").args(args).output()?;
 
     let stdout = String::from_utf8(output.stdout)?;
     let stderr = String::from_utf8(output.stderr)?;
@@ -247,7 +235,7 @@ pub fn show_ref_tags() -> anyhow::Result<HashMap<String, GitTagRef>> {
 /// Wrapper for `git tag $t -a -m $m`
 ///
 /// Sets an annotated tag
-pub fn tag(tag: &str, msg: &str) -> anyhow::Result<()> {
+pub fn tag(tag: &str, msg: &str) -> anyhow::Result<String> {
     let output = Command::new("git")
         .args(["tag", tag, "-a", "-m", msg])
         .output()?;
@@ -259,7 +247,7 @@ pub fn tag(tag: &str, msg: &str) -> anyhow::Result<()> {
         bail!(format!("{stdout}{stderr}"));
     }
 
-    Ok(())
+    Ok(stdout)
 }
 
 /// A git commit
