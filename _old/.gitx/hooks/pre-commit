@@ -1,5 +1,0 @@
-#!/bin/sh
-
-echo 'i Running pre-commit hook'
-
-# cargo clippy

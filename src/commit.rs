@@ -80,11 +80,13 @@ impl Display for ConvCommitMessage {
 
         // Body
         if let Some(b) = &self.body {
+            writeln!(f)?;
             writeln!(f, "{b}")?;
         }
 
         // Breaking change
         if let Some(msg) = &self.breaking_change {
+            writeln!(f)?;
             writeln!(f, "BREAKING_ CHANGE: {msg}")?;
         }
 
@@ -378,7 +380,14 @@ impl Commits {
 
         let mut commits = vec![];
         for c in raw_commits {
-            let conv_message = ConvCommitMessage::parse(&c.message, config).ok();
+            let conv_message = match ConvCommitMessage::parse(&c.message, config) {
+                Ok(m) => Some(m),
+                Err(_err) => {
+                    // eprintln!("[{}] {}", c.hash, err);
+                    // eprintln!("{}", c.message);
+                    None
+                }
+            };
 
             // Assign the commit tag
             let tag = tags_refs
