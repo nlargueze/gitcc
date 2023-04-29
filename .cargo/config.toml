@@ -1,5 +1,5 @@
 [alias]
-repo = "run --"
+gitcc = "run --"
 
 [env]
 RUST_LOG = "off"
