@@ -1,11 +1,11 @@
-//! `repo` command
+//! CLI
 
 use std::process::exit;
 
 use clap::{Parser, Subcommand};
 
 use colored::Colorize;
-use git_cc_cli::cmd::{
+use gitcc::cmd::{
     self, changelog::ChangelogArgs, commit::CommitArgs, init::InitArgs,
     install_hooks::InstallHooksArgs, lint_commit::LintArgs, release::ReleaseArgs,
     version::BumpArgs,

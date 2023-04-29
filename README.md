@@ -1,5 +1,5 @@
-# Repo
+# gitcc
 
 ## Usage
 
-`repo --help`
+`gitcc --help`

@@ -1,13 +1,13 @@
 [package]
-name = "git-cc-cli"
+name = "gitcc"
 version = "0.1.2"
 edition = "2021"
 description = "Git extension(s) for conventional commits"
-repository = "https://github.com/nlargueze/git-cc-cli"
-default-run = "git-cc-cli"
+repository = "https://github.com/nlargueze/gitcc"
+default-run = "gitcc"
 
 [[bin]]
-name = "git-cc-cli"
+name = "gitcc"
 path = "src/bin/main.rs"
 
 [dependencies]
