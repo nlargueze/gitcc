@@ -2,18 +2,18 @@
 name = "repo-tools"
 version = "0.1.2"
 edition = "2021"
-description = "Repo tooling"
-repository = "https://github.com/nlargueze/repo"
+description = "Git extension(s) for conventional commits"
+repository = "https://github.com/nlargueze/git-cc-cli"
 
 [dependencies]
 anyhow = "1.0.64"
-clap = { version = "3.2.20", features = ["derive"] }
+clap = { version = "4.2.5", features = ["derive"] }
 colored = "2.0.0"
 dialoguer = "0.10.2"
 handlebars = "4.3.3"
 heck = "0.4.0"
 indexmap = { version = "1.9.1", features = ["serde"] }
-indoc = "1.0.7"
+indoc = "2.0.1"
 regex = "1.6.0"
 semver = { version = "1.0.13", features = ["serde"] }
 serde = { version = "1.0.144", features = ["derive"] }
@@ -23,4 +23,4 @@ time = { version = "0.3.14", features = [
     "formatting",
     "macros",
 ] }
-toml = "0.5.9"
+toml = "0.7.3"
