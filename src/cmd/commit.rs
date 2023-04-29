@@ -73,12 +73,8 @@ fn ask_for_commit_message(config: &Config) -> anyhow::Result<ConvCommitMessage> 
             .iter()
             .map(|(k, v)| format!("{}: {}", k, v))
             .collect();
-        let commit_types_keys: Vec<_> = config
-            .commits
-            .types
-            .iter()
-            .map(|(k, _v)| k.to_string())
-            .collect();
+        let commit_types_keys: Vec<_> =
+            config.commits.types.keys().map(|k| k.to_string()).collect();
         let i = Select::with_theme(&ColorfulTheme::default())
             .items(&commit_types)
             .clear(true)

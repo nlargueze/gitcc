@@ -24,7 +24,7 @@ pub fn execute_bump_commands(
     for cmd in &config.release.bump_commands {
         let cmd = cmd.replace("{version}", &version.to_string());
         let cmd_args: Vec<&str> = cmd.split(' ').collect();
-        let output = Command::new(&cmd_args[0])
+        let output = Command::new(cmd_args[0])
             .args(&cmd_args[1..])
             .current_dir(&config.repo_dir)
             .output()?;

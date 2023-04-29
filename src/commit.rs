@@ -148,12 +148,7 @@ impl ConvCommitMessage {
                     r#type = match capts.name("type") {
                         Some(m) => {
                             let t = m.as_str();
-                            if !config
-                                .types
-                                .iter()
-                                .map(|(k, _v)| k.clone())
-                                .any(|x| x == *t)
-                            {
+                            if !config.types.keys().cloned().any(|x| x == *t) {
                                 bail!("Invalid conventional commit type '{}'", t);
                             }
                             t.to_string()
