@@ -4,6 +4,11 @@ version = "0.1.2"
 edition = "2021"
 description = "Git extension(s) for conventional commits"
 repository = "https://github.com/nlargueze/git-cc-cli"
+default-run = "git-cc-cli"
+
+[[bin]]
+name = "git-cc-cli"
+path = "src/bin/main.rs"
 
 [dependencies]
 anyhow = "1.0.64"

@@ -5,7 +5,7 @@ use std::process::exit;
 use clap::{Parser, Subcommand};
 
 use colored::Colorize;
-use repo_tools::cmd::{
+use git_cc_cli::cmd::{
     self, changelog::ChangelogArgs, commit::CommitArgs, init::InitArgs,
     install_hooks::InstallHooksArgs, lint_commit::LintArgs, release::ReleaseArgs,
     version::BumpArgs,
