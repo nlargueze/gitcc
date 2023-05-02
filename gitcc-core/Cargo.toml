@@ -1,0 +1,19 @@
+[package]
+name = "gitcc-core"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+serde = { version = "1.0.160", features = ["derive"] }
+thiserror = "1.0.40"
+toml = "0.7.3"
+gitcc-convco = { path = "../gitcc-convco" }
+gitcc-changelog = { path = "../gitcc-changelog" }
+gitcc-git = { path = "../gitcc-git" }
+indexmap = { version = "1.9.3", features = ["serde"] }
+semver = "1.0.17"
+log = "0.4.17"
+time = { version = "0.3.20", features = ["formatting", "macros"] }
+itertools = "0.10.5"

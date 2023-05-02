@@ -1,0 +1,22 @@
+[commit.types]
+build = "Build system"
+cd = "Continuous Delivery"
+chore = "Other changes"
+ci = "Continuous Integration"
+docs = "Documentation"
+feat = "New features"
+fix = "Bug fixes"
+perf = "Performance Improvements"
+refactor = "Code refactoring"
+style = "Code styling"
+test = "Testing"
+
+[version]
+types_incr_minor = ["feat"]
+
+[changelog.sections]
+"New features" = ["feat"]
+"Bug fixes" = ["fix"]
+Documentation = ["docs"]
+"Performance improvements" = ["perf"]
+Tooling = ["build", "ci", "cd"]

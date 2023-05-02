@@ -1,5 +1,5 @@
-[alias]
-gitcc = "run --"
-
 [env]
 RUST_LOG = "off"
+
+[alias]
+gitcc = "run -p gitcc-cli --"

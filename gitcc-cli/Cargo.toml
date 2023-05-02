@@ -1,0 +1,17 @@
+[package]
+name = "gitcc-cli"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[[bin]]
+name = "gitcc"
+path = "src/bin/gitcc.rs"
+
+[dependencies]
+anyhow = "1.0.71"
+clap = { version = "4.2.5", features = ["derive"] }
+colored = "2.0.0"
+dialoguer = "0.10.4"
+gitcc-core = { path = "../gitcc-core" }

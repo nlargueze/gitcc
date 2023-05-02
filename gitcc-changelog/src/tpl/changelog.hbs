@@ -1,0 +1,20 @@
+# Changelog
+    
+All notable changes to this project will be documented in this file.
+
+{{#each releases}}
+## [{{this.version}}] - {{this.date}}
+{{#if this.url}}
+
+{{this.url}}
+{{/if}}
+
+{{#each this.sections}}
+### {{this.label}}
+
+{{#each this.items}}
+- {{this}}
+{{/each}}
+
+{{/each}}
+{{/each}}
