@@ -8,7 +8,7 @@ use std::{
 };
 
 use gitcc_convco::{ConvcoMessage, DEFAULT_CONVCO_INCR_MINOR_TYPES, DEFAULT_CONVCO_TYPES};
-use gitcc_git::{discover_repo, GitCommit, GitFileStatus, GitTag};
+use gitcc_git::discover_repo;
 use semver::Version;
 use serde::{Deserialize, Serialize};
 use time::OffsetDateTime;
@@ -76,7 +76,7 @@ pub struct Commit {
     /// Parsed convco message (None if not a conventional message)
     pub conv_message: Option<ConvcoMessage>,
     /// Tag object
-    pub tag: Option<GitTag>,
+    pub tag: Option<gitcc_git::Tag>,
     /// Version to which the commit belongs (None = unreleased)
     pub version: Option<Version>,
 }
@@ -176,7 +176,7 @@ pub struct CommitHistory {
 }
 
 /// Checks if the repo has unstaged or untracked files
-pub fn dirty_files(cwd: &Path) -> Result<Vec<GitFileStatus>, Error> {
+pub fn dirty_files(cwd: &Path) -> Result<Vec<gitcc_git::FileStatus>, Error> {
     let repo = discover_repo(cwd)?;
     Ok(gitcc_git::repo_status(&repo)?)
 }
@@ -184,8 +184,8 @@ pub fn dirty_files(cwd: &Path) -> Result<Vec<GitFileStatus>, Error> {
 /// Returns the history of all commits
 pub fn commit_history(cwd: &Path, cfg: &Config) -> Result<CommitHistory, Error> {
     let repo = gitcc_git::discover_repo(cwd)?;
-    let git_commits = gitcc_git::commit_history(&repo)?;
-    let map_commit_to_tag: HashMap<_, _> = gitcc_git::repo_tag_refs(&repo)?
+    let git_commits = gitcc_git::commit_log(&repo)?;
+    let map_commit_to_tag: HashMap<_, _> = gitcc_git::get_tag_refs(&repo)?
         .into_iter()
         .map(|t| (t.commit_id.clone(), t))
         .collect();
@@ -280,8 +280,9 @@ pub fn commit_history(cwd: &Path, cfg: &Config) -> Result<CommitHistory, Error> 
 }
 
 /// Commits the changes to git
-pub fn commit_changes(_msg: &str) -> Result<GitCommit, Error> {
-    todo!()
+pub fn commit_changes(cwd: &Path, message: &str) -> Result<gitcc_git::Commit, Error> {
+    let repo = gitcc_git::discover_repo(cwd)?;
+    Ok(gitcc_git::commit_to_head(&repo, message)?)
 }
 
 #[cfg(test)]

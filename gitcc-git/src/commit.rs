@@ -1,12 +1,13 @@
 //! Commit
 
+use git2::StatusOptions;
 use time::{OffsetDateTime, UtcOffset};
 
 use crate::{error::Error, GitRepository};
 
 /// A commit
 #[derive(Debug)]
-pub struct GitCommit {
+pub struct Commit {
     /// ID (hash)
     pub id: String,
     /// Date
@@ -23,7 +24,7 @@ pub struct GitCommit {
     pub message: String,
 }
 
-impl GitCommit {
+impl Commit {
     /// Returns the commit subject (1st line)
     pub fn subject(&self) -> String {
         if let Some(line) = self.message.lines().next() {
@@ -33,10 +34,45 @@ impl GitCommit {
     }
 }
 
+impl<'repo> TryFrom<&'repo git2::Commit<'repo>> for Commit {
+    type Error = Error;
+
+    fn try_from(c: &'repo git2::Commit) -> Result<Self, Self::Error> {
+        Ok(Commit {
+            id: c.id().to_string(),
+            date: convert_git2_time(c.time())?,
+            author_name: c
+                .author()
+                .name()
+                .ok_or(Error::msg("non UTF8 author name"))?
+                .to_string(),
+            author_email: c
+                .author()
+                .email()
+                .ok_or(Error::msg("non UTF8 author email"))?
+                .to_string(),
+            committer_name: c
+                .committer()
+                .name()
+                .ok_or(Error::msg("non UTF8 committer name"))?
+                .to_string(),
+            committer_email: c
+                .committer()
+                .email()
+                .ok_or(Error::msg("non UTF8 committer email"))?
+                .to_string(),
+            message: c
+                .message()
+                .ok_or(Error::msg("non UTF8 message"))?
+                .to_string(),
+        })
+    }
+}
+
 /// Returns the complete commit history
 ///
 /// The returned list is ordered with the last commit first (revwalk order).
-pub fn commit_history(repo: &GitRepository) -> Result<Vec<GitCommit>, Error> {
+pub fn commit_log(repo: &GitRepository) -> Result<Vec<Commit>, Error> {
     // NB: an explanation can be found here (for Go)
     // https://stackoverflow.com/questions/37289674/how-to-run-git-log-commands-using-libgit2-in-go
     let mut revwalk = repo.revwalk()?;
@@ -52,15 +88,7 @@ pub fn commit_history(repo: &GitRepository) -> Result<Vec<GitCommit>, Error> {
                 if let Some(c) = obj.as_commit() {
                     // eprintln!("{:#?}", c);
                     // NB: raw text values can be invalid if not UTF8
-                    commits.push(GitCommit {
-                        id: c.id().to_string(),
-                        date: convert_git2_time(c.time())?,
-                        author_name: c.author().name().unwrap_or("__invalid__").to_string(),
-                        author_email: c.author().email().unwrap_or("__invalid__").to_string(),
-                        committer_name: c.committer().name().unwrap_or("__invalid__").to_string(),
-                        committer_email: c.committer().email().unwrap_or("__invalid__").to_string(),
-                        message: c.message().unwrap_or("__invalid__").to_string(),
-                    });
+                    commits.push(c.try_into()?);
                 }
             }
             Err(err) => return Err(Error::msg(format!("{err} (revwalk)").as_str())),
@@ -69,14 +97,34 @@ pub fn commit_history(repo: &GitRepository) -> Result<Vec<GitCommit>, Error> {
     Ok(commits)
 }
 
-/// Performs a commit
-pub fn repo_push(repo: &GitRepository, _message: &str) -> Result<(), Error> {
-    if repo.is_bare() {
-        return Err(Error::msg("cannot commit on a bare repository"));
+/// Performs a commit to the head
+pub fn commit_to_head(repo: &GitRepository, message: &str) -> Result<Commit, Error> {
+    // check for nothing to commit
+    let mut status_opts = StatusOptions::new();
+    status_opts.show(git2::StatusShow::Index);
+    let has_no_changes = repo.statuses(Some(&mut status_opts))?.is_empty();
+    if has_no_changes {
+        return Err(Error::msg("nothing to commit"));
     }
 
-    // let oid = repo.commit(Some("HEAD"), author, committer, message, tree, parents)?;
-    todo!();
+    // go
+    let sig = repo.signature()?;
+    let update_ref = Some("HEAD");
+    let head = repo.head()?;
+    let head_commit = head.peel_to_commit()?;
+
+    let tree = {
+        // NB: OK, here it is weird, the loaded index contains a bunch of stuff,
+        // but i cannot see the staged changes. I just load the index and writes the tree
+        // and it seems to work fine.
+        let mut index = repo.index()?;
+        let tree_id = index.write_tree()?;
+        repo.find_tree(tree_id)?
+    };
+    let commit_id = repo.commit(update_ref, &sig, &sig, message, &tree, &[&head_commit])?;
+    let commit_obj = repo.find_object(commit_id, None)?;
+    let commit = commit_obj.as_commit().unwrap();
+    commit.try_into()
 }
 
 /// Converts a [git2::Time] to [OffsetDateTime]
@@ -101,10 +149,10 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_commit_history() {
+    fn test_commit_log() {
         let cwd = std::env::current_dir().unwrap();
         let repo = discover_repo(&cwd).unwrap();
-        let commits = commit_history(&repo).unwrap();
+        let commits = commit_log(&repo).unwrap();
         for c in commits {
             eprintln!("commit {}", c.id);
             eprintln!("Date: {}", c.date);
@@ -113,5 +161,13 @@ mod tests {
             eprintln!("{}", c.message);
             eprintln!();
         }
+    }
+
+    #[test]
+    fn test_commit_do() {
+        let cwd = std::env::current_dir().unwrap();
+        let _repo = discover_repo(&cwd).unwrap();
+        // USE WITH CAUTION
+        // commit_to_head(&repo, "test commit").unwrap();
     }
 }

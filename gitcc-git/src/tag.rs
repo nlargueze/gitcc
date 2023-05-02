@@ -4,20 +4,20 @@ use crate::{error::Error, GitRepository};
 
 /// A git tag
 #[derive(Debug, Clone)]
-pub struct GitTag {
+pub struct Tag {
     /// ID (hash)
     pub id: String,
     /// Name (short)
     pub name: String,
     /// Full name
-    pub full_name: String,
+    pub name_full: String,
     /// Tag message - None if lightweight tag
     pub message: Option<String>,
     /// Commit ID (hash)
     pub commit_id: String,
 }
 
-impl GitTag {
+impl Tag {
     /// Checks if the tag is annotated
     pub fn is_annotated(&self) -> bool {
         self.message.is_some()
@@ -25,7 +25,7 @@ impl GitTag {
 }
 
 /// Retrieves all the repo tags (lightweight and annotated)
-pub fn repo_tags(repo: &GitRepository) -> Result<Vec<String>, Error> {
+pub fn list_tags(repo: &GitRepository) -> Result<Vec<String>, Error> {
     let tags = repo.tag_names(None)?;
     let tags = tags
         .into_iter()
@@ -37,7 +37,7 @@ pub fn repo_tags(repo: &GitRepository) -> Result<Vec<String>, Error> {
 /// Retrieves all the repo tag references
 ///
 /// This method looks for all references and finds the tags.
-pub fn repo_tag_refs(repo: &GitRepository) -> Result<Vec<GitTag>, Error> {
+pub fn get_tag_refs(repo: &GitRepository) -> Result<Vec<Tag>, Error> {
     let refs = repo.references()?;
 
     let mut tags = vec![];
@@ -65,15 +65,15 @@ pub fn repo_tag_refs(repo: &GitRepository) -> Result<Vec<GitTag>, Error> {
         let tag_message = tag.map(|t| t.message().unwrap_or("__invalid__").trim().to_string());
 
         // peel to find the commit
-        // NB: a tag always points to a commit
+        // NB: a tag always points to a commit (itself for a lightweight tag)
         let commit = rf.peel_to_commit()?;
         let commit_id = commit.id().to_string();
 
         tags.push({
-            GitTag {
+            Tag {
                 id,
                 name,
-                full_name,
+                name_full: full_name,
                 message: tag_message,
                 commit_id,
             }
@@ -93,7 +93,7 @@ mod tests {
     fn test_tags_simple() {
         let cwd = std::env::current_dir().unwrap();
         let repo = discover_repo(&cwd).unwrap();
-        let tags = repo_tags(&repo).unwrap();
+        let tags = list_tags(&repo).unwrap();
         for tag in tags {
             eprintln!("{tag}")
         }
@@ -103,7 +103,7 @@ mod tests {
     fn test_tags_refs() {
         let cwd = std::env::current_dir().unwrap();
         let repo = discover_repo(&cwd).unwrap();
-        let tags = repo_tag_refs(&repo).unwrap();
+        let tags = get_tag_refs(&repo).unwrap();
         for tag in tags {
             eprintln!("{}:  {} ({})", tag.id, tag.name, tag.commit_id)
         }

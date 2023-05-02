@@ -3,8 +3,9 @@
 use std::env;
 
 use clap::Parser;
-use colored::Colorize;
 use gitcc_core::Config;
+
+use crate::{info, warn};
 
 /// Commit command arguments
 #[derive(Debug, Parser)]
@@ -18,14 +19,14 @@ pub fn run(_args: ReleaseArgs) -> anyhow::Result<()> {
     let _config = if let Some(cfg) = config {
         cfg
     } else {
-        eprintln!("{} using default config", "i".blue().bold());
+        info!("using default config");
         Config::default()
     };
 
     // Checks that the repo is clean
     let dirty_files = gitcc_core::dirty_files(&cwd)?;
     if !dirty_files.is_empty() {
-        eprintln!("{} repo is dirty", "i".blue().bold());
+        warn!("repo is dirty");
         // for f in dirty_files {
         //     eprintln!("  {f}");
         // }

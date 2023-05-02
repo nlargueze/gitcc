@@ -6,6 +6,8 @@ use clap::Parser;
 use colored::Colorize;
 use gitcc_core::Config;
 
+use crate::info;
+
 /// `log` command arguments
 #[derive(Debug, Parser)]
 pub struct LogArgs {}
@@ -17,7 +19,7 @@ pub fn run(_args: LogArgs) -> anyhow::Result<()> {
     let config = if let Some(c) = config {
         c
     } else {
-        eprintln!("{} using default config", "i".blue().bold());
+        info!("using default config");
         Config::default()
     };
 
@@ -31,14 +33,13 @@ pub fn run(_args: LogArgs) -> anyhow::Result<()> {
             c.author_name,
             c.author_email
         );
-        println!(
-            "{}{} <{}>",
-            "committer: ".cyan(),
-            c.committer_name,
-            c.committer_email
-        );
+        // println!(
+        //     "{}{} <{}>",
+        //     "committer: ".cyan(),
+        //     c.committer_name,
+        //     c.committer_email
+        // );
         println!("{}", c.raw_message);
-        println!();
     }
 
     Ok(())

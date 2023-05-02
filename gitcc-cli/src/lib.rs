@@ -7,6 +7,7 @@ pub mod commit;
 pub mod init;
 pub mod log;
 pub mod release;
+mod util;
 pub mod version;
 
 #[derive(Debug, Parser)]

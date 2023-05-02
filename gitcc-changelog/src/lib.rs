@@ -35,7 +35,7 @@ pub struct Release {
     /// [1.0.0]: https://github.com/olivierlacan/keep-a-changelog/compare/v0.0.2...v0.0.1
     pub url: Option<String>,
     /// Sections
-    pub sections: Vec<ReleaseSection>,
+    pub sections: Vec<Section>,
 }
 
 /// Serializes a date
@@ -49,14 +49,14 @@ where
 
 /// Changelog release section
 #[derive(Debug, Serialize)]
-pub struct ReleaseSection {
+pub struct Section {
     /// Section label
     pub label: String,
     /// Section items
     pub items: Vec<String>,
 }
 
-impl PartialEq for ReleaseSection {
+impl PartialEq for Section {
     fn eq(&self, other: &Self) -> bool {
         self.label == other.label
     }
@@ -65,24 +65,24 @@ impl PartialEq for ReleaseSection {
 /// Changelog error
 #[derive(Debug, thiserror::Error)]
 #[error("Changelog error:{0}")]
-pub struct ChangelogError(String);
+pub struct Error(String);
 
 impl Changelog {
     /// Generates the change log
-    pub fn generate(&self, template: &str) -> Result<String, ChangelogError> {
+    pub fn render(&self, template: &str) -> Result<String, Error> {
         let handlebars = Handlebars::new();
         handlebars
             .render_template(template, &self)
-            .map_err(|err| ChangelogError(err.to_string()))
+            .map_err(|err| Error(err.to_string()))
     }
 }
 
 impl Release {
     /// Generates the release note
-    pub fn generate(&self, template: &str) -> Result<String, ChangelogError> {
+    pub fn render(&self, template: &str) -> Result<String, Error> {
         let handlebars = Handlebars::new();
         handlebars
             .render_template(template, &self)
-            .map_err(|err| ChangelogError(err.to_string()))
+            .map_err(|err| Error(err.to_string()))
     }
 }

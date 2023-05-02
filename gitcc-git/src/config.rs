@@ -18,7 +18,7 @@ pub const USER_NAME: &str = "user.name";
 /// The config is the config which can be applied taking into
 /// account the hierarchy which exists between the global config,
 /// and the local/repo config overwriting the global config.
-pub fn repo_config(repo: &GitRepository) -> Result<GitConfig, Error> {
+pub fn get_config(repo: &GitRepository) -> Result<GitConfig, Error> {
     let git2_cfg = repo.config().unwrap();
 
     let mut cfg = BTreeMap::new();
@@ -40,8 +40,8 @@ pub fn repo_config(repo: &GitRepository) -> Result<GitConfig, Error> {
 }
 
 /// Retrieves the repo origin url
-pub fn repo_origin_url(repo: &GitRepository, origin_name: &str) -> Result<Option<String>, Error> {
-    let cfg = repo_config(repo)?;
+pub fn get_origin_url(repo: &GitRepository, origin_name: &str) -> Result<Option<String>, Error> {
+    let cfg = get_config(repo)?;
     let key = format!("remote.{}.url", origin_name);
     Ok(cfg.get(key.as_str()).map(|s| s.to_string()))
 }
@@ -57,7 +57,7 @@ mod tests {
     fn test_cfg() {
         let cwd = std::env::current_dir().unwrap();
         let repo = discover_repo(&cwd).unwrap();
-        let cfg = repo_config(&repo).unwrap();
+        let cfg = get_config(&repo).unwrap();
         for (k, v) in cfg.iter() {
             eprintln!("{}: {}", k, v);
         }

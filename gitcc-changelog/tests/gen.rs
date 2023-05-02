@@ -1,8 +1,6 @@
 //! Changelog/Release generation
 
-use gitcc_changelog::{
-    Changelog, Release, ReleaseSection, TEMPLATE_CHANGELOG_STD, TEMPLATE_RELEASE_STD,
-};
+use gitcc_changelog::{Changelog, Release, Section, TEMPLATE_CHANGELOG_STD, TEMPLATE_RELEASE_STD};
 use time::{macros::datetime, OffsetDateTime};
 
 #[test]
@@ -14,7 +12,7 @@ fn gen_changelog() {
                 date: OffsetDateTime::now_utc(),
                 url: None,
                 sections: vec![
-                    ReleaseSection {
+                    Section {
                         label: "New features".to_string(),
                         items: vec![
                             "changelog #1".to_string(),
@@ -22,7 +20,7 @@ fn gen_changelog() {
                             "changelog #3".to_string(),
                         ],
                     },
-                    ReleaseSection {
+                    Section {
                         label: "Fixes".to_string(),
                         items: vec![
                             "fix #1".to_string(),
@@ -37,7 +35,7 @@ fn gen_changelog() {
                 date: datetime!(2021-01-01 13:00:55 UTC),
                 url: Some("https://github.com/gitcc/release/v0.0.1".to_string()),
                 sections: vec![
-                    ReleaseSection {
+                    Section {
                         label: "New features".to_string(),
                         items: vec![
                             "changelog #1".to_string(),
@@ -45,7 +43,7 @@ fn gen_changelog() {
                             "changelog #3".to_string(),
                         ],
                     },
-                    ReleaseSection {
+                    Section {
                         label: "Fixes".to_string(),
                         items: vec![
                             "fix #1".to_string(),
@@ -58,7 +56,7 @@ fn gen_changelog() {
         ],
     };
 
-    let changelog_str = changelog.generate(TEMPLATE_CHANGELOG_STD).unwrap();
+    let changelog_str = changelog.render(TEMPLATE_CHANGELOG_STD).unwrap();
     eprintln!("{changelog_str}");
 }
 
@@ -69,7 +67,7 @@ fn gen_release() {
         date: datetime!(2021-01-01 13:00:55 UTC),
         url: Some("https://github.com/gitcc/release/v0.0.1".to_string()),
         sections: vec![
-            ReleaseSection {
+            Section {
                 label: "New features".to_string(),
                 items: vec![
                     "changelog #1".to_string(),
@@ -77,7 +75,7 @@ fn gen_release() {
                     "changelog #3".to_string(),
                 ],
             },
-            ReleaseSection {
+            Section {
                 label: "Fixes".to_string(),
                 items: vec![
                     "fix #1".to_string(),
@@ -88,6 +86,6 @@ fn gen_release() {
         ],
     };
 
-    let release_str = release.generate(TEMPLATE_RELEASE_STD).unwrap();
+    let release_str = release.render(TEMPLATE_RELEASE_STD).unwrap();
     eprintln!("{release_str}");
 }

@@ -2,8 +2,8 @@
 
 use std::path::Path;
 
-use gitcc_changelog::{Changelog, Release, ReleaseSection};
-use gitcc_git::{discover_repo, repo_origin_url};
+use gitcc_changelog::{Changelog, Release, Section};
+use gitcc_git::{discover_repo, get_origin_url};
 use indexmap::{indexmap, IndexMap};
 use itertools::Itertools;
 use serde::{Deserialize, Serialize};
@@ -74,7 +74,7 @@ pub fn build_changelog(
     let repo = discover_repo(cwd)?;
 
     let origin_name = opts.origin_name.unwrap_or("origin".to_owned());
-    let origin_url = repo_origin_url(&repo, &origin_name)?.ok_or(Error::msg(
+    let origin_url = get_origin_url(&repo, &origin_name)?.ok_or(Error::msg(
         format!("remote origin '{origin_name}' not found").as_str(),
     ))?;
 
@@ -103,7 +103,7 @@ pub fn build_changelog(
             .into_iter()
         {
             eprintln!("     SECTION: {section_label}");
-            let mut section = ReleaseSection {
+            let mut section = Section {
                 label: section_label,
                 items: vec![],
             };

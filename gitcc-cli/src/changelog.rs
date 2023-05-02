@@ -3,8 +3,9 @@
 use std::env;
 
 use clap::Parser;
-use colored::Colorize;
 use gitcc_core::{build_changelog, commit_history, Config, TEMPLATE_CHANGELOG_STD};
+
+use crate::{info, warn};
 
 /// Changelog command arguments
 #[derive(Debug, Parser)]
@@ -17,14 +18,14 @@ pub fn run(_args: ChangelogArgs) -> anyhow::Result<()> {
     let cfg = if let Some(c) = cfg {
         c
     } else {
-        eprintln!("{} using default config", "i".blue().bold());
+        info!("using default config");
         Config::default()
     };
 
     // Checks that the repo is clean
     let dirty_files = gitcc_core::dirty_files(&cwd)?;
     if !dirty_files.is_empty() {
-        eprintln!("{} repo is dirty", "!".yellow().bold());
+        warn!("repo is dirty");
     }
 
     // Generate the changelog

@@ -3,8 +3,9 @@
 use std::env;
 
 use clap::Parser;
-use colored::Colorize;
 use gitcc_core::{commit_history, Config};
+
+use crate::{info, warn};
 
 /// Bump command arguments
 #[derive(Debug, Parser)]
@@ -18,14 +19,14 @@ pub fn run(_args: VersionArgs) -> anyhow::Result<()> {
     let config = if let Some(cfg) = config {
         cfg
     } else {
-        eprintln!("{} using default config", "i".blue().bold());
+        info!("using default config");
         Config::default()
     };
 
     // Checks that the repo is clean
     let dirty_files = gitcc_core::dirty_files(&cwd)?;
     if !dirty_files.is_empty() {
-        eprintln!("{} repo is dirty", "!".yellow().bold());
+        warn!("repo is dirty");
         // for f in dirty_files {
         //     eprintln!("  {f}");
         // }
@@ -33,13 +34,13 @@ pub fn run(_args: VersionArgs) -> anyhow::Result<()> {
 
     let history = commit_history(&cwd, &config)?;
     println!(
-        "current version: {}",
+        "current_version:{}",
         history
             .curr_version
             .map(|v| v.to_string())
             .unwrap_or_else(|| "none".to_string())
     );
-    println!("next version: {}", history.next_version);
+    println!("next_version:{}", history.next_version);
 
     Ok(())
 }

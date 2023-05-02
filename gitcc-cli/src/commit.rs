@@ -3,9 +3,10 @@
 use std::env;
 
 use clap::Parser;
-use colored::Colorize;
 use dialoguer::{theme::ColorfulTheme, Confirm, Editor, Input, Select};
 use gitcc_core::{Config, ConvcoMessage, StringExt};
+
+use crate::{error, info, success, warn};
 
 /// Commit command arguments
 #[derive(Debug, Parser)]
@@ -19,19 +20,29 @@ pub fn run(_args: CommitArgs) -> anyhow::Result<()> {
     let config = if let Some(cfg) = config {
         cfg
     } else {
-        eprintln!("{} using default config", "i".blue().bold());
+        info!("using default config");
         Config::default()
     };
 
     // Checks that the repo is clean
     let dirty_files = gitcc_core::dirty_files(&cwd)?;
     if !dirty_files.is_empty() {
-        eprintln!("{} repo is dirty", "i".blue().bold());
+        warn!("repo is dirty:");
         for f in dirty_files {
-            eprintln!("  {f}");
+            eprintln!("\t{f}");
         }
-        eprintln!("{} aborted", "!".red().bold());
-        return Ok(());
+        match Confirm::with_theme(&ColorfulTheme::default())
+            .with_prompt("continue ?")
+            .report(true)
+            .default(false)
+            .interact()?
+        {
+            false => {
+                error!("aborted");
+                return Ok(());
+            }
+            true => {}
+        }
     }
 
     // write the commit
@@ -39,9 +50,8 @@ pub fn run(_args: CommitArgs) -> anyhow::Result<()> {
     // eprintln!("{:#?}", commit);
 
     // git commit
-    let _commit = gitcc_core::commit_changes(&msg.to_string())?;
-    eprintln!("{} COMMIT TODO", "i".red().bold());
-    // eprintln!("{}", stdout);
+    let commit = gitcc_core::commit_changes(&cwd, &msg.to_string())?;
+    success!(format!("new commit with id {}", commit.id));
 
     Ok(())
 }
@@ -84,7 +94,7 @@ fn open_dialogue(config: &Config) -> anyhow::Result<ConvcoMessage> {
 
     // > Short description
     let desc = Input::<String>::with_theme(&ColorfulTheme::default())
-        .with_prompt("Commit subject")
+        .with_prompt("Commit description")
         .report(true)
         .interact()?
         .trim()
