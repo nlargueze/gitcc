@@ -4,7 +4,7 @@ use std::env;
 
 use clap::Parser;
 use dialoguer::{theme::ColorfulTheme, Confirm, Editor, Input, Select};
-use gitcc_core::{Config, ConvcoMessage, StringExt};
+use gitcc_core::{Config, ConvcoMessage, StatusShow, StringExt};
 
 use crate::{error, info, success, warn};
 
@@ -25,11 +25,11 @@ pub fn run(_args: CommitArgs) -> anyhow::Result<()> {
     };
 
     // Checks that the repo is clean
-    let dirty_files = gitcc_core::dirty_files(&cwd)?;
-    if !dirty_files.is_empty() {
+    let status = gitcc_core::git_status(&cwd, StatusShow::Workdir)?;
+    if !status.is_empty() {
         warn!("repo is dirty:");
-        for f in dirty_files {
-            eprintln!("\t{f}");
+        for (file, _) in status {
+            eprintln!("\t{file}");
         }
         match Confirm::with_theme(&ColorfulTheme::default())
             .with_prompt("continue ?")

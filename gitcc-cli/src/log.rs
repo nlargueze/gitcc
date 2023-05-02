@@ -6,7 +6,7 @@ use clap::Parser;
 use colored::Colorize;
 use gitcc_core::Config;
 
-use crate::info;
+use crate::{info, new_line};
 
 /// `log` command arguments
 #[derive(Debug, Parser)]
@@ -14,6 +14,8 @@ pub struct LogArgs {}
 
 /// Executes the commnad `init`
 pub fn run(_args: LogArgs) -> anyhow::Result<()> {
+    new_line!();
+
     let cwd = env::current_dir()?;
     let config = Config::load_from_fs(&cwd)?;
     let config = if let Some(c) = config {

@@ -1,52 +1,38 @@
 //! Status
 
-use std::fmt::Display;
+use std::collections::BTreeMap;
 
 use git2::StatusOptions;
 
 use crate::{error::Error, repo::GitRepository};
 
-/// Represents a file (or dir) with its git status
-#[derive(Debug, Clone)]
-pub struct FileStatus {
-    /// Path to the file (None if the name is not UTF8)
-    pub path: Option<String>,
-    /// Git status
-    pub status: git2::Status,
-}
+/// Status of a file
+pub type Status = git2::Status;
 
-impl Display for FileStatus {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "{}: {:?}",
-            self.path.clone().unwrap_or("__invalid__".to_string()),
-            self.status
-        )
-    }
-}
+/// Status show option
+pub type StatusShow = git2::StatusShow;
 
 /// Checks if the repo is clean, ie has no uncommited and untracked files
-pub fn repo_status(repo: &GitRepository) -> Result<Vec<FileStatus>, Error> {
+pub fn repo_status(
+    repo: &GitRepository,
+    show: StatusShow,
+) -> Result<BTreeMap<String, git2::Status>, Error> {
     if repo.is_bare() {
         return Err(Error::msg("cannot report status on bare repository"));
     }
 
     let mut opts = StatusOptions::new();
-    opts.show(git2::StatusShow::IndexAndWorkdir)
-        .include_untracked(true);
-    let mut entries: Vec<_> = repo
+    opts.show(show).include_untracked(true);
+    let entries: BTreeMap<String, git2::Status> = repo
         .statuses(Some(&mut opts))?
         .into_iter()
-        .map(|e| FileStatus {
-            path: e.path().map(|p| p.to_string()),
-            status: e.status(),
+        .map(|e| {
+            (
+                e.path().map(|p| p.to_string()).unwrap_or_default(),
+                e.status(),
+            )
         })
         .collect();
-    entries.sort_by(|f1, f2| {
-        // sort by status
-        f1.status.partial_cmp(&f2.status).unwrap()
-    });
 
     Ok(entries)
 }
@@ -62,9 +48,9 @@ mod tests {
     fn test_repo_status() {
         let cwd = std::env::current_dir().unwrap();
         let repo = discover_repo(&cwd).unwrap();
-        let dirty_files = repo_status(&repo).unwrap();
-        for f in dirty_files {
-            eprintln!("{:?}: {:?}", f.path, f.status);
+        let dirty_files = repo_status(&repo, StatusShow::IndexAndWorkdir).unwrap();
+        for (file, status) in dirty_files {
+            eprintln!("{:?}: {:?}", file, status);
         }
     }
 }

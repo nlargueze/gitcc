@@ -13,6 +13,8 @@ use semver::Version;
 use serde::{Deserialize, Serialize};
 use time::OffsetDateTime;
 
+pub use gitcc_git::StatusShow;
+
 use crate::{Config, Error};
 
 /// Commits configuration
@@ -78,7 +80,7 @@ pub struct Commit {
     /// Tag object
     pub tag: Option<gitcc_git::Tag>,
     /// Version to which the commit belongs (None = unreleased)
-    pub version: Option<Version>,
+    pub version_tag: Option<String>,
 }
 
 impl Commit {
@@ -176,9 +178,13 @@ pub struct CommitHistory {
 }
 
 /// Checks if the repo has unstaged or untracked files
-pub fn dirty_files(cwd: &Path) -> Result<Vec<gitcc_git::FileStatus>, Error> {
+pub fn git_status(
+    cwd: &Path,
+    show: StatusShow,
+) -> Result<BTreeMap<String, gitcc_git::Status>, Error> {
     let repo = discover_repo(cwd)?;
-    Ok(gitcc_git::repo_status(&repo)?)
+    let files = gitcc_git::repo_status(&repo, show)?;
+    Ok(files)
 }
 
 /// Returns the history of all commits
@@ -192,7 +198,7 @@ pub fn commit_history(cwd: &Path, cfg: &Config) -> Result<CommitHistory, Error> 
 
     let mut commits = Vec::new();
     let mut curr_version: Option<Version> = None; // current version
-    let mut commit_version: Option<Version> = None;
+    let mut commit_version: Option<String> = None;
     let mut unreleased_incr_kind = VersionIncr::None; // type of increment for the next version
     let mut is_commit_released = false;
     for c in git_commits {
@@ -225,13 +231,14 @@ pub fn commit_history(cwd: &Path, cfg: &Config) -> Result<CommitHistory, Error> 
         }
         if has_annotated_tag {
             let tag = tag.clone().unwrap();
-            let tag_str = tag.name.trim().strip_prefix('v').unwrap_or(&tag.name);
-            match tag_str.parse::<Version>() {
+            let tag_name = tag.name.trim();
+            let tag_version = tag_name.strip_prefix('v').unwrap_or(tag_name);
+            match tag_version.parse::<Version>() {
                 Ok(v) => {
                     // eprintln!(" => version: {}", v);
-                    commit_version = Some(v);
+                    commit_version = Some(tag_name.to_string());
                     if curr_version.is_none() {
-                        curr_version = commit_version.clone();
+                        curr_version = Some(v);
                     }
                     is_commit_released = true;
                 }
@@ -266,7 +273,7 @@ pub fn commit_history(cwd: &Path, cfg: &Config) -> Result<CommitHistory, Error> 
             raw_message: c.message,
             conv_message,
             tag,
-            version: commit_version.clone(),
+            version_tag: commit_version.clone(),
         });
     }
 
@@ -306,7 +313,7 @@ mod tests {
                     .as_ref()
                     .map(|m| m.r#type.clone())
                     .unwrap_or("--".to_string()),
-                if c.version.is_none() {
+                if c.version_tag.is_none() {
                     c.conv_message
                         .as_ref()
                         .map(|m| m.version_incr_kind(&cfg.version).to_string())
@@ -314,7 +321,7 @@ mod tests {
                 } else {
                     "--".to_string()
                 },
-                c.version
+                c.version_tag
                     .as_ref()
                     .map(|v| v.to_string())
                     .unwrap_or("unreleased".to_string()),

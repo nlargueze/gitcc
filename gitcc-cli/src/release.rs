@@ -3,7 +3,7 @@
 use std::env;
 
 use clap::Parser;
-use gitcc_core::Config;
+use gitcc_core::{Config, StatusShow};
 
 use crate::{info, warn};
 
@@ -24,14 +24,9 @@ pub fn run(_args: ReleaseArgs) -> anyhow::Result<()> {
     };
 
     // Checks that the repo is clean
-    let dirty_files = gitcc_core::dirty_files(&cwd)?;
+    let dirty_files = gitcc_core::git_status(&cwd, StatusShow::IndexAndWorkdir)?;
     if !dirty_files.is_empty() {
         warn!("repo is dirty");
-        // for f in dirty_files {
-        //     eprintln!("  {f}");
-        // }
-        // eprintln!("{} aborted", "!".red().bold());
-        // return Ok(());
     }
 
     eprintln!("1: make sure there is no untracked/uncommitted changes");

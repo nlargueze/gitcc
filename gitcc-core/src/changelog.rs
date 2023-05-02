@@ -58,6 +58,8 @@ impl ChangelogConfig {
 pub struct ChangelogBuildOptions {
     /// Origin name (`origin` by default)
     pub origin_name: Option<String>,
+    /// Includes all commits
+    pub all: bool,
 }
 
 /// Builds the changelog
@@ -79,55 +81,56 @@ pub fn build_changelog(
     ))?;
 
     let mut releases = vec![];
-    for (key_version, group_release) in history
+    for (release_version, release_commits) in history
         .commits
         .iter()
-        .group_by(|c| c.version.clone().map(|v| v.to_string()))
+        .group_by(|c| c.version_tag.clone())
         .into_iter()
     {
-        eprintln!(
-            "RELEASE {}",
-            key_version.clone().unwrap_or("unreleased".to_owned())
-        );
+        // eprintln!(
+        //     "RELEASE: {}",
+        //     release_version.clone().unwrap_or("unreleased".to_string())
+        // );
 
-        let mut sections = vec![];
+        // NB: we use a dummy initial release date in 1900
+        let mut release_date = OffsetDateTime::now_utc().replace_year(1900).unwrap();
 
-        for (section_label, commits) in group_release
-            .group_by(|c| match &c.conv_message {
-                Some(msg) => cfg
-                    .changelog
-                    .find_section_for_commit_type(&msg.r#type)
-                    .unwrap_or("___IGNORED___".to_string()),
-                None => "Uncategorized".to_string(),
-            })
-            .into_iter()
-        {
-            eprintln!("     SECTION: {section_label}");
-            let mut section = Section {
-                label: section_label,
-                items: vec![],
+        let mut sections: IndexMap<String, Section> = IndexMap::new();
+        for (s_label, _) in &cfg.changelog.sections {
+            sections.insert(s_label.to_string(), Section::new(s_label));
+        }
+        const UNCATEGORIZED: &str = "Uncategorized"; // commits with no type
+        const IGNORED: &str = "Uncategorized"; // ignored commits (types not included)
+        sections.insert(UNCATEGORIZED.to_string(), Section::new(UNCATEGORIZED));
+        sections.insert(IGNORED.to_string(), Section::new(IGNORED));
+
+        for c in release_commits {
+            release_date = std::cmp::max(release_date, c.date);
+
+            let c_sect_label = match &c.conv_message {
+                Some(m) => match cfg.changelog.find_section_for_commit_type(&m.r#type) {
+                    Some(label) => label,
+                    None => IGNORED.to_string(),
+                },
+                None => UNCATEGORIZED.to_string(),
             };
 
-            for commit in commits {
-                let commit_item = commit_oneliner(&origin_url, commit);
-                section.items.push(commit_item);
-            }
+            // if c_sect_label == IGNORED && !opts.all {
+            //     continue;
+            // }
 
-            sections.push(section);
+            let section = sections.get_mut(&c_sect_label).unwrap();
+            section.items.push(commit_oneliner(&origin_url, c));
         }
 
-        let release_version = key_version.unwrap_or("unreleased".to_string());
-        let release_date = OffsetDateTime::now_utc();
-        let release_url = build_release_url(
-            &origin_url,
-            history
-                .curr_version
-                .as_ref()
-                .map(|v| format!("v{v}"))
-                .unwrap_or("".to_string())
-                .as_str(),
-            "HEAD",
-        );
+        // remove empty sections
+        let sections: Vec<_> = sections
+            .into_iter()
+            .filter_map(|(_, v)| if v.items.is_empty() { None } else { Some(v) })
+            .collect();
+
+        let release_version = release_version.clone().unwrap_or("unreleased".to_string());
+        let release_url = build_release_url(&origin_url, &release_version);
         let release = Release {
             version: release_version,
             date: release_date,
@@ -142,9 +145,10 @@ pub fn build_changelog(
 
 /// Builds the release URL
 ///
+/// eg. https://github.com/nlargueze/gitcc/releases/tag/v0.0.15
 /// eg. https://github.com/nlargueze/repo/compare/v0.1.1...v0.1.2
-fn build_release_url(origin_url: &str, from: &str, to: &str) -> String {
-    format!("{origin_url}/compare/{from}...{to}")
+fn build_release_url(origin_url: &str, version: &str) -> String {
+    format!("{origin_url}/releases/tag/{version}")
 }
 
 /// Builders the commit

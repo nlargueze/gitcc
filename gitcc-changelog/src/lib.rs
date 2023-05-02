@@ -62,6 +62,16 @@ impl PartialEq for Section {
     }
 }
 
+impl Section {
+    /// Initializes a new section
+    pub fn new(label: &str) -> Self {
+        Self {
+            label: label.to_string(),
+            items: vec![],
+        }
+    }
+}
+
 /// Changelog error
 #[derive(Debug, thiserror::Error)]
 #[error("Changelog error:{0}")]
