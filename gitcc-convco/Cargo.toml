@@ -2,6 +2,9 @@
 name = "gitcc-convco"
 version = "0.1.0"
 edition = "2021"
+description = "Utilities for conventional commits"
+license = "MIT"
+repository = "https://github.com/nlargueze/gitcc"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
