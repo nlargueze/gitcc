@@ -323,7 +323,7 @@ mod tests {
                 },
                 c.version_tag
                     .as_ref()
-                    .map(|v| v.to_string())
+                    .map(|t| t.name.to_string())
                     .unwrap_or("unreleased".to_string()),
                 if let Some(tag) = &c.tag {
                     format!("<- {}", &tag.name)
