@@ -4,20 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [unreleased] - 2023-05-02
 
-https://github.com/nlargueze/gitcc/releases/tag/unreleased
-
 ### Uncategorized
 
-- chore: wip [307b2a5](https://github.com/nlargueze/gitcc/commit/307b2a5bebb8fe3c45cad0374ccb69ea394faf97)
 - test commit [944bbc1](https://github.com/nlargueze/gitcc/commit/944bbc1c13ce24213f1462dc8bf5d268892b736c)
 - test commit [2611585](https://github.com/nlargueze/gitcc/commit/2611585feb89972debfc57b32ac5c321183c7270)
-- refactor: rewrote [542552c](https://github.com/nlargueze/gitcc/commit/542552c35ad14555e6bd600732b6e40d1db96bbe)
-- chore: fixed local cargo config [a9ee491](https://github.com/nlargueze/gitcc/commit/a9ee491b6cdebe570bcdc36dd2694eef20dafe36)
-- style: fixed clippy issues [bdf1e5a](https://github.com/nlargueze/gitcc/commit/bdf1e5a2619957f83e1d27cdb098ead1d6540649)
-- refactor: changed repo name to gitcc [7e236c3](https://github.com/nlargueze/gitcc/commit/7e236c30376404a51342bdd1080381fdfb9c1c43)
-- refactor: changed bin name [ec10e99](https://github.com/nlargueze/gitcc/commit/ec10e9958d3e05f2a62b1f40a717e315ecb3f139)
-- refactor: changed crate name [1bf61b4](https://github.com/nlargueze/gitcc/commit/1bf61b4ede0b06259d995161e0bce7a8970e609f)
-- chore: updated crates [baea4a1](https://github.com/nlargueze/gitcc/commit/baea4a1c31669cc390a7e85061f26cba0bc1b345)
 
 ## [v0.1.2] - 2022-09-12
 
@@ -27,28 +17,13 @@ https://github.com/nlargueze/gitcc/releases/tag/v0.1.2
 
 - cd: removed publish&#x3D;false in Cargo.toml [6a8189d](https://github.com/nlargueze/gitcc/commit/6a8189d7d3f39dd3f01918713078c8f96bb49254)
 
-### Uncategorized
-
-- chore: release 0.1.2 [6ab8207](https://github.com/nlargueze/gitcc/commit/6ab82077111cacc717419d44dee33f1e2fb79631)
-- chore: fix [a9fe700](https://github.com/nlargueze/gitcc/commit/a9fe70021e366abd6e7057d3d8791ca78ab863bb)
-
 ## [v0.1.1] - 2022-09-12
 
 https://github.com/nlargueze/gitcc/releases/tag/v0.1.1
 
-### Uncategorized
-
-- chore: release 0.1.1 [db38edb](https://github.com/nlargueze/gitcc/commit/db38edb1804fee1437381447ed96dc5040c14368)
-- chore: small fixes [6583a13](https://github.com/nlargueze/gitcc/commit/6583a1396e0baac20f5cb0ec2277234a60563c2b)
-
 ## [v0.1.0] - 2022-09-12
 
 https://github.com/nlargueze/gitcc/releases/tag/v0.1.0
-
-### Uncategorized
-
-- chore: release 0.1.0 [39781cd](https://github.com/nlargueze/gitcc/commit/39781cd14d5502c6eb1aa053dd43028ff8b8b5a7)
-- chore!: work in progress [b80b8e5](https://github.com/nlargueze/gitcc/commit/b80b8e5554ef191da13b586c48c5c7acf4f576ea)
 
 ## [v0.0.18] - 2022-09-12
 
@@ -56,8 +31,6 @@ https://github.com/nlargueze/gitcc/releases/tag/v0.0.18
 
 ### Uncategorized
 
-- chore: release 0.0.18 [2717dae](https://github.com/nlargueze/gitcc/commit/2717dae2f12e37d9c58806dcffd2508dd802aaeb)
-- chore: cleanup [e21323e](https://github.com/nlargueze/gitcc/commit/e21323e1abb935a06ed4b126418941893ffcafdc)
 - chore!: refactoring [e88dae6](https://github.com/nlargueze/gitcc/commit/e88dae6d48fd85b094f58eab029a883969436101)
 
 ## [v0.0.17] - 2022-09-12
@@ -71,10 +44,7 @@ https://github.com/nlargueze/gitcc/releases/tag/v0.0.17
 
 ### Uncategorized
 
-- chore: release 0.0.17 [468b939](https://github.com/nlargueze/gitcc/commit/468b939d3ef97e21aea3c35710522b0aaaf17d7b)
 - chore(dev test): test for development [99e35b6](https://github.com/nlargueze/gitcc/commit/99e35b6af06f4062d754bb26a48cff24059666a6)
-- chore: dev test [7392545](https://github.com/nlargueze/gitcc/commit/73925454a40685a5fdc65b818254002978e39a5c)
-- chore: dev test [b149d30](https://github.com/nlargueze/gitcc/commit/b149d305b02459528edb13fb4f8579af1d28f186)
 - Reset [b50e8e3](https://github.com/nlargueze/gitcc/commit/b50e8e3bc80023aff94a46e0d584b8029acf7785)
 
 ## [v0.0.16] - 2022-05-13
@@ -85,11 +55,6 @@ https://github.com/nlargueze/gitcc/releases/tag/v0.0.16
 
 - cd: removed Dagger setup, moved back to Github Actions [a749198](https://github.com/nlargueze/gitcc/commit/a749198717ab740efc3760e77352cf1660d95bb3)
 
-### Uncategorized
-
-- chore(release): created release 0.0.16 [8472f25](https://github.com/nlargueze/gitcc/commit/8472f25071e240cae24c4f961bb54827ffbadde3)
-- chore: removed RELEASENOTES.md file [1c13096](https://github.com/nlargueze/gitcc/commit/1c13096ad17d95be361e83198b17839c7c9744fb)
-
 ## [v0.0.15] - 2022-04-26
 
 https://github.com/nlargueze/gitcc/releases/tag/v0.0.15
@@ -97,10 +62,6 @@ https://github.com/nlargueze/gitcc/releases/tag/v0.0.15
 ### Bug fixes
 
 - fix: fixed release notes format [d6b40d8](https://github.com/nlargueze/gitcc/commit/d6b40d8a356061c61dd80086fc7ed735f7e8d9b4)
-
-### Uncategorized
-
-- chore(release): created release 0.0.15 [a7d98f9](https://github.com/nlargueze/gitcc/commit/a7d98f931d5ec7e98fd6b1ccd5570ebbe72998f0)
 
 ## [v0.0.14] - 2022-04-26
 
@@ -118,12 +79,6 @@ https://github.com/nlargueze/gitcc/releases/tag/v0.0.14
 
 - docs: fixed documentation [45734a2](https://github.com/nlargueze/gitcc/commit/45734a2e382597ce5784c81a9ea1fac43f84c224)
 
-### Uncategorized
-
-- chore(release): created release 0.0.14 [672b305](https://github.com/nlargueze/gitcc/commit/672b305097ca2423bf253626a2e97531118133ad)
-- chore: changed default config [b8a15c8](https://github.com/nlargueze/gitcc/commit/b8a15c88b083274dc92d5bc8a38ecdc1ffe5715d)
-- chore: fixed CHANGELOG template lint issue [675f5dd](https://github.com/nlargueze/gitcc/commit/675f5ddc7407d751914bf83d4b10d21036f17896)
-
 ## [v0.0.13] - 2022-04-26
 
 https://github.com/nlargueze/gitcc/releases/tag/v0.0.13
@@ -136,11 +91,6 @@ https://github.com/nlargueze/gitcc/releases/tag/v0.0.13
 
 - cd: fixed CD workflow [f39e6e7](https://github.com/nlargueze/gitcc/commit/f39e6e7760107a9977f83fc94b5e466be2abf5fb)
 
-### Uncategorized
-
-- chore(release): created release 0.0.13 [7cf3bf4](https://github.com/nlargueze/gitcc/commit/7cf3bf41f6ef753f7c150ab1f86e3076c04b34a9)
-- chore: simplified config [d3918b7](https://github.com/nlargueze/gitcc/commit/d3918b7bda90d0045ae458a53fcc3f784acc5fee)
-
 ## [0.0.12] - 2022-04-26
 
 https://github.com/nlargueze/gitcc/releases/tag/0.0.12
@@ -149,10 +99,6 @@ https://github.com/nlargueze/gitcc/releases/tag/0.0.12
 
 - cd: fixed release version not being picked up [19b618a](https://github.com/nlargueze/gitcc/commit/19b618a9a23b4c41c2f5a2899f24e688eee0dbec)
 
-### Uncategorized
-
-- chore(release): created release 0.0.12 [273bd74](https://github.com/nlargueze/gitcc/commit/273bd7413951a3bcd419456deb8046ca833d01a2)
-
 ## [0.0.11] - 2022-04-26
 
 https://github.com/nlargueze/gitcc/releases/tag/0.0.11
@@ -160,11 +106,6 @@ https://github.com/nlargueze/gitcc/releases/tag/0.0.11
 ### Tooling
 
 - cd: ignored .DS_Store file [1d42794](https://github.com/nlargueze/gitcc/commit/1d42794ce7b9ba6ea28189750c2e72c5bce704f4)
-
-### Uncategorized
-
-- chore(release): created release 0.0.11 [ae7f81f](https://github.com/nlargueze/gitcc/commit/ae7f81f7677f2f7d9340abdea72d8212fe8bb00e)
-- chore: small style fix [7f1542b](https://github.com/nlargueze/gitcc/commit/7f1542bfb57e813fb408a8d263deac2679c0e0e1)
 
 ## [0.0.10] - 2022-04-26
 
@@ -178,10 +119,6 @@ https://github.com/nlargueze/gitcc/releases/tag/0.0.10
 
 - cd: fixed CD deployment [f9955cf](https://github.com/nlargueze/gitcc/commit/f9955cf5dd0d7c632fb52e9120e403d2d4336324)
 
-### Uncategorized
-
-- chore(release): created release 0.0.10 [9eb7210](https://github.com/nlargueze/gitcc/commit/9eb7210c0365a955c298cf980cb67e2efa1acff7)
-
 ## [0.0.9] - 2022-04-26
 
 https://github.com/nlargueze/gitcc/releases/tag/0.0.9
@@ -189,10 +126,6 @@ https://github.com/nlargueze/gitcc/releases/tag/0.0.9
 ### Tooling
 
 - ci: added CI dagger jobs and Github Actions [dad72c9](https://github.com/nlargueze/gitcc/commit/dad72c91752280a87a2aa6b746fe2753c0384a5d)
-
-### Uncategorized
-
-- chore(release): created release 0.0.9 [6b4edd5](https://github.com/nlargueze/gitcc/commit/6b4edd5ba4093b5b44ffcb0b4d905e3745148912)
 
 ## [0.0.8] - 2022-04-25
 
@@ -209,10 +142,6 @@ https://github.com/nlargueze/gitcc/releases/tag/0.0.8
 - fix(hooks): fixed install-hooks script [3480daa](https://github.com/nlargueze/gitcc/commit/3480daa99da8839374a568aa34abf2d1c295485b)
 - fix(bump): set current directory of custom bump commands [4a9d5bf](https://github.com/nlargueze/gitcc/commit/4a9d5bf871448061f21549381e7fdb078f342853)
 
-### Uncategorized
-
-- chore(release): created release 0.0.8 [b41d978](https://github.com/nlargueze/gitcc/commit/b41d97868c8efd227a8351664cd94bb72116a319)
-
 ## [0.0.7] - 2022-04-23
 
 https://github.com/nlargueze/gitcc/releases/tag/0.0.7
@@ -222,10 +151,6 @@ https://github.com/nlargueze/gitcc/releases/tag/0.0.7
 - fix(bump): fixing bump script [3613d5b](https://github.com/nlargueze/gitcc/commit/3613d5b8f593aae0eaab603cc9513ebc0d6106c8)
 - fix(bump): fixing bumping script [4182323](https://github.com/nlargueze/gitcc/commit/4182323dbadf78c81a3b22d0d799fa7a7bea020d)
 
-### Uncategorized
-
-- chore(release): created release 0.0.7 [ea8956f](https://github.com/nlargueze/gitcc/commit/ea8956fe9eee27464e510fbd78fe98d8c00a5fc6)
-
 ## [0.0.6] - 2022-04-23
 
 https://github.com/nlargueze/gitcc/releases/tag/0.0.6
@@ -233,10 +158,6 @@ https://github.com/nlargueze/gitcc/releases/tag/0.0.6
 ### Bug fixes
 
 - fix(bump): fixing cargo bump script [452e920](https://github.com/nlargueze/gitcc/commit/452e920b605ec512d0c1720d01d5deb209496512)
-
-### Uncategorized
-
-- chore(release): created release 0.0.6 [3ba9e39](https://github.com/nlargueze/gitcc/commit/3ba9e3987d5a8f7ae12eee4e53d11839958b2d81)
 
 ## [0.0.5] - 2022-04-23
 
@@ -246,10 +167,6 @@ https://github.com/nlargueze/gitcc/releases/tag/0.0.5
 
 - fix: fixed Cargo.lock file [1625754](https://github.com/nlargueze/gitcc/commit/16257542d1ee8159359ce842b45367549c2bdf60)
 
-### Uncategorized
-
-- chore(release): created release 0.0.5 [3ef8966](https://github.com/nlargueze/gitcc/commit/3ef896656b9900bd30dbb8e816c95f1edaee6c3b)
-
 ## [0.0.4] - 2022-04-23
 
 https://github.com/nlargueze/gitcc/releases/tag/0.0.4
@@ -257,10 +174,6 @@ https://github.com/nlargueze/gitcc/releases/tag/0.0.4
 ### Bug fixes
 
 - fix(bump): fixedcustom bumop scripts execution [c80f9e2](https://github.com/nlargueze/gitcc/commit/c80f9e2b2373bd7e27e94eaaebe6633e7908f05e)
-
-### Uncategorized
-
-- chore(release): created release 0.0.4 [9408372](https://github.com/nlargueze/gitcc/commit/940837236985beab7386e00244e3004b8a240a88)
 
 ## [0.0.3] - 2022-04-23
 
@@ -281,7 +194,6 @@ https://github.com/nlargueze/gitcc/releases/tag/0.0.3
 
 ### Uncategorized
 
-- chore(release): created release 0.0.3 [c8bbd30](https://github.com/nlargueze/gitcc/commit/c8bbd30717ad5eb47d0673bfb70db7924b43b35d)
 - refactor(git_log): moved git_log() to another file [d5d56c7](https://github.com/nlargueze/gitcc/commit/d5d56c7b4d214741a421499a0e9ecae50a481c47)
 
 ## [0.0.1] - 2022-04-14
@@ -329,21 +241,12 @@ https://github.com/nlargueze/gitcc/releases/tag/0.0.1
 
 ### Uncategorized
 
-- chore(release): created release 0.0.1 [9e8ce41](https://github.com/nlargueze/gitcc/commit/9e8ce4124d7ffd89759533a931c91880192740f4)
-- refactor: separated commands in separate binaries [ceb390d](https://github.com/nlargueze/gitcc/commit/ceb390d8fc9f61fd5003f0b55b61cc297a7fc72c)
-- refactor: changed repo/create name [847ae58](https://github.com/nlargueze/gitcc/commit/847ae58b8086af81db3776e3d964978889f9f982)
-- refactor: changed repo/create name [c27bd22](https://github.com/nlargueze/gitcc/commit/c27bd2265433694924fb3aca226867e1425e5b2f)
-- chore(release): created release 0.0.1 [bdebfb5](https://github.com/nlargueze/gitcc/commit/bdebfb546bdbe100c0ba9b2b3ffb539dd0bb0e78)
-- chore(bump): changed option from &#x27;add&#x27; to &#x27;set&#x27; [7a672f5](https://github.com/nlargueze/gitcc/commit/7a672f5742364c8db09bc349a2f56dc5fdbc936d)
-- refactor: refactored all code [04daa20](https://github.com/nlargueze/gitcc/commit/04daa20351fdec40264a8bb53531231f81167c88)
 - Merge branch &#x27;main&#x27; of https://github.com/nlargueze/gitt [6f18189](https://github.com/nlargueze/gitcc/commit/6f181890f59c6a513adbb941bac8d018e2514082)
 - refactor: Refactored code [c59010b](https://github.com/nlargueze/gitcc/commit/c59010b3545d67aaa399a3e14caf63375990dccd)
 - refactor: Refactored code [7065dfa](https://github.com/nlargueze/gitcc/commit/7065dfa1096ed172af9499fff75fff66e354ae22)
-- refactor: refactored a bunch of stuff [ae9dbd6](https://github.com/nlargueze/gitcc/commit/ae9dbd630c48b20e9ff0e6f0c2d24f4eda5e1c57)
 - test [f94c13a](https://github.com/nlargueze/gitcc/commit/f94c13afa981a598243cc471666b64febdd4c5a8)
 - feat: ABCD [66d51bb](https://github.com/nlargueze/gitcc/commit/66d51bbcfc9a85ea1c3f15d30b0e5031afe9b21c)
 - Merge branch &#x27;main&#x27; of https://github.com/nlargueze/gitt [a178085](https://github.com/nlargueze/gitcc/commit/a178085eb233fa59f411b627d5f0e822ae5c157b)
-- chore: testing commit command [01a435e](https://github.com/nlargueze/gitcc/commit/01a435ef093dde85af2f306e4e3419b479e4f260)
 - first commit [b9861b6](https://github.com/nlargueze/gitcc/commit/b9861b644673c21ab5718ca3c411299b51da99e0)
 
 

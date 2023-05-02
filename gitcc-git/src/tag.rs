@@ -1,12 +1,16 @@
 //! Tags
 
-use crate::{error::Error, GitRepository};
+use time::OffsetDateTime;
+
+use crate::{error::Error, util::convert_git2_time, GitRepository};
 
 /// A git tag
 #[derive(Debug, Clone)]
 pub struct Tag {
     /// ID (hash)
     pub id: String,
+    /// Date
+    pub date: OffsetDateTime,
     /// Name (short)
     pub name: String,
     /// Full name
@@ -15,6 +19,12 @@ pub struct Tag {
     pub message: Option<String>,
     /// Commit ID (hash)
     pub commit_id: String,
+}
+
+impl PartialEq for Tag {
+    fn eq(&self, other: &Self) -> bool {
+        self.id == other.id
+    }
 }
 
 impl Tag {
@@ -68,10 +78,12 @@ pub fn get_tag_refs(repo: &GitRepository) -> Result<Vec<Tag>, Error> {
         // NB: a tag always points to a commit (itself for a lightweight tag)
         let commit = rf.peel_to_commit()?;
         let commit_id = commit.id().to_string();
+        let date = convert_git2_time(commit.time())?;
 
         tags.push({
             Tag {
                 id,
+                date,
                 name,
                 name_full: full_name,
                 message: tag_message,

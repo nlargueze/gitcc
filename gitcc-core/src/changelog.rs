@@ -81,7 +81,7 @@ pub fn build_changelog(
     ))?;
 
     let mut releases = vec![];
-    for (release_version, release_commits) in history
+    for (release_tag, release_commits) in history
         .commits
         .iter()
         .group_by(|c| c.version_tag.clone())
@@ -89,35 +89,43 @@ pub fn build_changelog(
     {
         // eprintln!(
         //     "RELEASE: {}",
-        //     release_version.clone().unwrap_or("unreleased".to_string())
+        //     release_tag
+        //         .as_ref()
+        //         .map(|t| t.name.to_string())
+        //         .unwrap_or("unreleased".to_string())
         // );
-
-        // NB: we use a dummy initial release date in 1900
-        let mut release_date = OffsetDateTime::now_utc().replace_year(1900).unwrap();
 
         let mut sections: IndexMap<String, Section> = IndexMap::new();
         for (s_label, _) in &cfg.changelog.sections {
             sections.insert(s_label.to_string(), Section::new(s_label));
         }
         const UNCATEGORIZED: &str = "Uncategorized"; // commits with no type
-        const IGNORED: &str = "Uncategorized"; // ignored commits (types not included)
+        const HIDDEN: &str = "__Hidden__"; // ignored commits (types not included)
         sections.insert(UNCATEGORIZED.to_string(), Section::new(UNCATEGORIZED));
-        sections.insert(IGNORED.to_string(), Section::new(IGNORED));
+        sections.insert(HIDDEN.to_string(), Section::new(HIDDEN));
 
         for c in release_commits {
-            release_date = std::cmp::max(release_date, c.date);
-
+            // eprintln!("{}", c.subject());
             let c_sect_label = match &c.conv_message {
-                Some(m) => match cfg.changelog.find_section_for_commit_type(&m.r#type) {
-                    Some(label) => label,
-                    None => IGNORED.to_string(),
-                },
+                Some(m) => {
+                    // eprint!("=> is conventional: {}", m.r#type);
+                    match cfg.changelog.find_section_for_commit_type(&m.r#type) {
+                        Some(label) => {
+                            // eprintln!("=> section: {}", label);
+                            label
+                        }
+                        None => {
+                            // eprintln!("=> HIDDEN");
+                            HIDDEN.to_string()
+                        }
+                    }
+                }
                 None => UNCATEGORIZED.to_string(),
             };
 
-            // if c_sect_label == IGNORED && !opts.all {
-            //     continue;
-            // }
+            if c_sect_label == HIDDEN && !opts.all {
+                continue;
+            }
 
             let section = sections.get_mut(&c_sect_label).unwrap();
             section.items.push(commit_oneliner(&origin_url, c));
@@ -129,12 +137,22 @@ pub fn build_changelog(
             .filter_map(|(_, v)| if v.items.is_empty() { None } else { Some(v) })
             .collect();
 
-        let release_version = release_version.clone().unwrap_or("unreleased".to_string());
-        let release_url = build_release_url(&origin_url, &release_version);
+        let release_version = release_tag
+            .as_ref()
+            .map(|t| t.name.to_string())
+            .unwrap_or("Unreleased".to_string());
+        let release_date = release_tag
+            .as_ref()
+            .map(|t| t.date)
+            .unwrap_or(OffsetDateTime::now_utc());
+        let release_url = release_tag
+            .as_ref()
+            .map(|t| build_release_url(&origin_url, &t.name));
+
         let release = Release {
             version: release_version,
             date: release_date,
-            url: Some(release_url),
+            url: release_url,
             sections,
         };
         releases.push(release);

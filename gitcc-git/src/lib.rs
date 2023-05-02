@@ -9,6 +9,7 @@ mod remote;
 mod repo;
 mod status;
 mod tag;
+mod util;
 
 pub use commit::*;
 pub use config::*;

@@ -1,9 +1,9 @@
 //! Commit
 
 use git2::StatusOptions;
-use time::{OffsetDateTime, UtcOffset};
+use time::OffsetDateTime;
 
-use crate::{error::Error, GitRepository};
+use crate::{error::Error, util::convert_git2_time, GitRepository};
 
 /// A commit
 #[derive(Debug)]
@@ -125,20 +125,6 @@ pub fn commit_to_head(repo: &GitRepository, message: &str) -> Result<Commit, Err
     let commit_obj = repo.find_object(commit_id, None)?;
     let commit = commit_obj.as_commit().unwrap();
     commit.try_into()
-}
-
-/// Converts a [git2::Time] to [OffsetDateTime]
-fn convert_git2_time(time: git2::Time) -> Result<OffsetDateTime, Error> {
-    let time_secs_unix = time.seconds();
-    let mut dt = OffsetDateTime::from_unix_timestamp(time_secs_unix)
-        .map_err(|err| Error::msg(err.to_string().as_str()))?;
-
-    let time_tz_mins = time.offset_minutes();
-    let offset = UtcOffset::from_whole_seconds(60 * time_tz_mins)
-        .map_err(|err| Error::msg(err.to_string().as_str()))?;
-
-    dt = dt.to_offset(offset);
-    Ok(dt)
 }
 
 #[cfg(test)]

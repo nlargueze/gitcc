@@ -80,7 +80,7 @@ pub struct Commit {
     /// Tag object
     pub tag: Option<gitcc_git::Tag>,
     /// Version to which the commit belongs (None = unreleased)
-    pub version_tag: Option<String>,
+    pub version_tag: Option<gitcc_git::Tag>,
 }
 
 impl Commit {
@@ -198,7 +198,7 @@ pub fn commit_history(cwd: &Path, cfg: &Config) -> Result<CommitHistory, Error> 
 
     let mut commits = Vec::new();
     let mut curr_version: Option<Version> = None; // current version
-    let mut commit_version: Option<String> = None;
+    let mut latest_version_tag: Option<gitcc_git::Tag> = None;
     let mut unreleased_incr_kind = VersionIncr::None; // type of increment for the next version
     let mut is_commit_released = false;
     for c in git_commits {
@@ -236,7 +236,7 @@ pub fn commit_history(cwd: &Path, cfg: &Config) -> Result<CommitHistory, Error> 
             match tag_version.parse::<Version>() {
                 Ok(v) => {
                     // eprintln!(" => version: {}", v);
-                    commit_version = Some(tag_name.to_string());
+                    latest_version_tag = Some(tag);
                     if curr_version.is_none() {
                         curr_version = Some(v);
                     }
@@ -273,7 +273,7 @@ pub fn commit_history(cwd: &Path, cfg: &Config) -> Result<CommitHistory, Error> 
             raw_message: c.message,
             conv_message,
             tag,
-            version_tag: commit_version.clone(),
+            version_tag: latest_version_tag.clone(),
         });
     }
 
