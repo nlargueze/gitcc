@@ -30,7 +30,7 @@ pub fn run(_args: ChangelogArgs) -> anyhow::Result<()> {
     // Generate the changelog
     let history = commit_history(&cwd, &cfg)?;
     let changelog = build_changelog(&cwd, &cfg, &history, None)?;
-    let changelog_str = changelog.generate(TEMPLATE_CHANGELOG_STD)?;
+    let changelog_str = changelog.render(TEMPLATE_CHANGELOG_STD)?;
     println!("{changelog_str}");
 
     Ok(())
