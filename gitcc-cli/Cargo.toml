@@ -2,7 +2,7 @@
 name = "gitcc-cli"
 version = "0.1.0"
 edition = "2021"
-description = "Core crate for gitcc-cli"
+description = "gitcc CLI"
 license = "MIT"
 repository = "https://github.com/nlargueze/gitcc"
 
