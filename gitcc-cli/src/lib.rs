@@ -4,6 +4,7 @@ use clap::{Parser, Subcommand};
 
 pub mod changelog;
 pub mod commit;
+pub mod config;
 pub mod init;
 pub mod log;
 pub mod release;
@@ -25,6 +26,8 @@ pub struct Cli {
 pub enum Commands {
     /// Inititializes the config
     Init(init::InitArgs),
+    /// Shows the current configuration
+    Config(config::ConfigArgs),
     /// Creates a conventional commit
     Commit(commit::CommitArgs),
     /// Displays the commit history
@@ -41,6 +44,7 @@ pub enum Commands {
 pub fn exec(cli: Cli) -> anyhow::Result<()> {
     match cli.commands {
         Commands::Init(args) => init::run(args),
+        Commands::Config(args) => config::run(args),
         Commands::Commit(args) => commit::run(args),
         Commands::Version(args) => version::run(args),
         Commands::Log(args) => log::run(args),

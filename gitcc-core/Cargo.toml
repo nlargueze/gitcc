@@ -20,3 +20,4 @@ semver = "1.0.17"
 log = "0.4.17"
 time = { version = "0.3.20", features = ["formatting", "macros"] }
 itertools = "0.10.5"
+serde_yaml = "0.9.21"

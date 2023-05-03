@@ -65,6 +65,16 @@ impl Config {
         Ok(())
     }
 
+    /// Returns the TOML representation of the configuration
+    pub fn to_toml(&self) -> Result<String, Error> {
+        Ok(toml::to_string(self)?)
+    }
+
+    /// Returns the YAML representation of the configuration
+    pub fn to_yaml(&self) -> Result<String, Error> {
+        Ok(serde_yaml::to_string(self)?)
+    }
+
     /// Returns the path to the config file
     fn file_path(cwd: &Path) -> Result<PathBuf, Error> {
         let repo = discover_repo(cwd)?;

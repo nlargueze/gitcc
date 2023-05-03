@@ -30,6 +30,12 @@ impl From<toml::ser::Error> for Error {
     }
 }
 
+impl From<serde_yaml::Error> for Error {
+    fn from(value: serde_yaml::Error) -> Self {
+        Error::msg(&value.to_string())
+    }
+}
+
 impl From<gitcc_git::Error> for Error {
     fn from(value: gitcc_git::Error) -> Self {
         Error::msg(&value.to_string())
