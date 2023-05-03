@@ -6,7 +6,7 @@ use clap::Parser;
 use dialoguer::{theme::ColorfulTheme, Confirm, Editor, Input, Select};
 use gitcc_core::{Config, ConvcoMessage, StatusShow, StringExt};
 
-use crate::{error, info, success, warn};
+use crate::{error, info, new_line, success, warn};
 
 /// Commit command arguments
 #[derive(Debug, Parser)]
@@ -51,6 +51,7 @@ pub fn run(_args: CommitArgs) -> anyhow::Result<()> {
 
     // git commit
     let commit = gitcc_core::commit_changes(&cwd, &msg.to_string())?;
+    new_line!();
     success!(format!("new commit with id {}", commit.id));
 
     Ok(())
