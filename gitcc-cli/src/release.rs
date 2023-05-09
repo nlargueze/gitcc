@@ -30,13 +30,13 @@ pub fn run(_args: ReleaseArgs) -> anyhow::Result<()> {
     }
 
     eprintln!("1: make sure there is no untracked/uncommitted changes");
-    eprintln!("2: create the changelog file");
+    eprintln!("2: create/update the changelog file");
     eprintln!("3: bump the package versions");
     eprintln!("4: commit the updated packages and changelog");
     eprintln!("5: tag that commit with the next version (annotated tag, leading 'v')");
     eprintln!("6: push with --follow-tags");
     eprintln!("7: create a Github release");
-    eprintln!("8: publish the updated packages (crates.io, npm, etc...");
+    eprintln!("8: publish the updated packages (crates.io, npm, brew, etc...");
 
     Ok(())
 }
