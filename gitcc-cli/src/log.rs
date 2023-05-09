@@ -26,9 +26,9 @@ pub fn run(_args: LogArgs) -> anyhow::Result<()> {
     };
 
     let history = gitcc_core::commit_history(&cwd, &config)?;
-    for c in history.commits {
+    for c in history.commits.iter().rev() {
         println!("{}{}", "commit: ".blue().bold(), c.id.to_string().bold());
-        if let Some(tag) = c.tag {
+        if let Some(tag) = &c.tag {
             println!("{}{}", "tag: ".magenta(), tag.name.bold());
         }
         println!("{}{}", "date: ".cyan(), c.date);
