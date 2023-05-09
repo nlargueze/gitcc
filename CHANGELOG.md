@@ -1,8 +1,16 @@
 # Changelog
-
+    
 All notable changes to this project will be documented in this file.
 
+## [v0.4.0] - 2023-05-09
+
+### New features
+
+- feat: added release command [aabfb9b](https://github.com/nlargueze/gitcc.git/commit/aabfb9bb4e21315acc02260d57f430474ac62b4b)
+
 ## [v0.3.0] - 2023-05-09
+
+https://github.com/nlargueze/gitcc.git/releases/tag/v0.3.0
 
 ### Bug fixes
 
@@ -116,3 +124,4 @@ https://github.com/nlargueze/gitcc.git/releases/tag/v0.1.0
 - feat: ABCD [66d51bb](https://github.com/nlargueze/gitcc.git/commit/66d51bbcfc9a85ea1c3f15d30b0e5031afe9b21c)
 - Merge branch &#x27;main&#x27; of https://github.com/nlargueze/gitt [a178085](https://github.com/nlargueze/gitcc.git/commit/a178085eb233fa59f411b627d5f0e822ae5c157b)
 - first commit [b9861b6](https://github.com/nlargueze/gitcc.git/commit/b9861b644673c21ab5718ca3c411299b51da99e0)
+
