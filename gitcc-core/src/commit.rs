@@ -177,6 +177,12 @@ pub struct CommitHistory {
     pub next_version: Version,
 }
 
+impl CommitHistory {
+    pub fn next_version_str(&self) -> String {
+        format!("v{}", self.next_version)
+    }
+}
+
 /// Checks if the repo has unstaged or untracked files
 pub fn git_status(
     cwd: &Path,
@@ -185,6 +191,13 @@ pub fn git_status(
     let repo = discover_repo(cwd)?;
     let files = gitcc_git::repo_status(&repo, show)?;
     Ok(files)
+}
+
+/// Adds all changes to the index
+pub fn git_add_all(cwd: &Path) -> Result<(), Error> {
+    let repo = discover_repo(cwd)?;
+    gitcc_git::add_all(&repo)?;
+    Ok(())
 }
 
 /// Returns the history of all commits

@@ -5,6 +5,7 @@
 mod commit;
 mod config;
 mod error;
+mod index;
 mod remote;
 mod repo;
 mod status;
@@ -14,6 +15,7 @@ mod util;
 pub use commit::*;
 pub use config::*;
 pub use error::*;
+pub use index::*;
 pub use remote::*;
 pub use repo::*;
 pub use status::*;

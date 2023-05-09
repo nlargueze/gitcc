@@ -11,7 +11,7 @@ macro_rules! new_line {
 /// Prints an info message to stderr
 #[macro_export]
 macro_rules! info {
-    ($MSG:expr) => {{
+    ($MSG: expr) => {{
         use colored::Colorize;
         eprintln!("{} {}", "i".blue().bold(), $MSG);
     }};
@@ -20,7 +20,7 @@ macro_rules! info {
 /// Prints a success message to stderr
 #[macro_export]
 macro_rules! success {
-    ($MSG:expr) => {{
+    ($MSG: expr) => {{
         use colored::Colorize;
         eprintln!("{} {}", "✔".green().bold(), $MSG);
     }};
@@ -29,17 +29,17 @@ macro_rules! success {
 /// Prints a warning message to stderr
 #[macro_export]
 macro_rules! warn {
-    ($MSG:expr) => {{
+    ($MSG: expr) => {{
         use colored::Colorize;
-        eprintln!("{} {}", "!".yellow().bold(), $MSG.yellow());
+        eprintln!("{} {}", "!".yellow().bold(), $MSG);
     }};
 }
 
 /// Prints an error message to stderr
 #[macro_export]
 macro_rules! error {
-    ($MSG:expr) => {{
+    ($MSG: expr) => {{
         use colored::Colorize;
-        eprintln!("{} {}", "✗".red().bold(), $MSG.red());
+        eprintln!("{} {}", "✗".red().bold(), $MSG);
     }};
 }

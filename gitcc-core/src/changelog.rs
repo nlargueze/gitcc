@@ -60,6 +60,8 @@ pub struct ChangelogBuildOptions {
     pub origin_name: Option<String>,
     /// Includes all commits
     pub all: bool,
+    /// Next version
+    pub next_version: Option<String>,
 }
 
 /// Builds the changelog
@@ -140,7 +142,13 @@ pub fn build_changelog(
         let release_version = release_tag
             .as_ref()
             .map(|t| t.name.to_string())
-            .unwrap_or("Unreleased".to_string());
+            .unwrap_or_else(|| {
+                if let Some(next_version) = &opts.next_version {
+                    next_version.to_string()
+                } else {
+                    "Unreleased".to_string()
+                }
+            });
         let release_date = release_tag
             .as_ref()
             .map(|t| t.date)

@@ -8,7 +8,7 @@ use std::{
 use gitcc_git::discover_repo;
 use serde::{Deserialize, Serialize};
 
-use crate::{error::Error, ChangelogConfig, CommitConfig, VersioningConfig};
+use crate::{error::Error, ChangelogConfig, CommitConfig, ReleaseConfig, VersioningConfig};
 
 /// Config directory name
 pub const CONFIG_DIR_NAME: &str = ".gitcc";
@@ -25,6 +25,8 @@ pub struct Config {
     pub version: VersioningConfig,
     /// Changelog configuration
     pub changelog: ChangelogConfig,
+    /// Release configuration
+    pub release: ReleaseConfig,
 }
 
 impl Config {
@@ -83,5 +85,13 @@ impl Config {
             .ok_or(Error::msg("git repo workdir not found (bare repo)"))?;
         let cfg_file = repo_dir.join(CONFIG_DIR_NAME).join(CONFIG_FILE_NAME);
         Ok(cfg_file)
+    }
+}
+
+/// Returns the git root directory
+pub fn get_root_dir(cwd: &Path) -> Option<PathBuf> {
+    match discover_repo(cwd) {
+        Ok(repo) => repo.workdir().map(|p| p.to_owned()),
+        Err(_) => None,
     }
 }

@@ -20,3 +20,6 @@ types_incr_minor = ["feat"]
 "Documentation" = ["docs"]
 "Performance improvements" = ["perf"]
 "Tooling" = ["build", "ci", "cd"]
+
+[release]
+bump_cmds = ["echo ABC"]

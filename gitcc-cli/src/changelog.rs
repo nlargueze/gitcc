@@ -16,6 +16,9 @@ pub struct ChangelogArgs {
     /// Includes all commits
     #[arg(long)]
     pub all: bool,
+    /// Sets the latest version as 'Unreleased'
+    #[arg(long)]
+    pub unreleased: bool,
 }
 
 /// Generates the change log
@@ -40,6 +43,11 @@ pub fn run(args: ChangelogArgs) -> anyhow::Result<()> {
     let changelog_opts = ChangelogBuildOptions {
         origin_name: None,
         all: args.all,
+        next_version: if args.unreleased {
+            None
+        } else {
+            Some(history.next_version_str())
+        },
     };
     let changelog = build_changelog(&cwd, &cfg, &history, Some(changelog_opts))?;
     let changelog_str = changelog.render(TEMPLATE_CHANGELOG_STD)?;

@@ -95,6 +95,14 @@ pub fn get_tag_refs(repo: &GitRepository) -> Result<Vec<Tag>, Error> {
     Ok(tags)
 }
 
+/// Sets an annotated tag to the HEAD
+pub fn set_annotated_tag(repo: &GitRepository, tag: &str, message: &str) -> Result<(), Error> {
+    let head_commit = repo.head()?.peel_to_commit()?;
+    let tagger = repo.signature()?;
+    let _oid = repo.tag(tag, head_commit.as_object(), &tagger, message, false)?;
+    Ok(())
+}
+
 #[cfg(test)]
 mod tests {
     use crate::repo::discover_repo;
