@@ -2,7 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v0.3.0] - 2023-05-09
+
+### Bug fixes
+
+- fix(release): changed release description [2f2dc6f](https://github.com/nlargueze/gitcc.git/commit/2f2dc6f9c21b746ebe7466d3a6f0183e6b04d7e7)
+- fix(log): reversed log output order (last commit shown last) [699de83](https://github.com/nlargueze/gitcc.git/commit/699de83d486271b7e4f9c7aa02c1de077549d33d)
+- fix(log): added tag to log output [df5897b](https://github.com/nlargueze/gitcc.git/commit/df5897b1c81fab65b0b83fc6465b884d5afeec4c)
+- fix(log): added line after the commit print [90eda02](https://github.com/nlargueze/gitcc.git/commit/90eda02d731b808cc5ce656314e543d9365ccb0c)
+
 ## [v0.2.0] - 2023-05-03
+
+https://github.com/nlargueze/gitcc.git/releases/tag/v0.2.0
 
 ### New features
 

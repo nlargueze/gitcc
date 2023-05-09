@@ -1,6 +1,6 @@
 [package]
 name = "gitcc-core"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2021"
 description = "Core crate for gitcc-cli"
 license = "MIT"
@@ -12,9 +12,9 @@ repository = "https://github.com/nlargueze/gitcc"
 serde = { version = "1.0.160", features = ["derive"] }
 thiserror = "1.0.40"
 toml = "0.7.3"
-gitcc-convco = { path = "../gitcc-convco", version = "0.2.0" }
-gitcc-changelog = { path = "../gitcc-changelog", version = "0.2.0" }
-gitcc-git = { path = "../gitcc-git", version = "0.2.0" }
+gitcc-convco = { path = "../gitcc-convco", version = "0.3.0" }
+gitcc-changelog = { path = "../gitcc-changelog", version = "0.3.0" }
+gitcc-git = { path = "../gitcc-git", version = "0.3.0" }
 indexmap = { version = "1.9.3", features = ["serde"] }
 semver = "1.0.17"
 log = "0.4.17"
