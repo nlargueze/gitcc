@@ -42,6 +42,7 @@ pub fn run(_args: LogArgs) -> anyhow::Result<()> {
         //     c.committer_email
         // );
         println!("{}", c.raw_message);
+        println!();
     }
 
     Ok(())
