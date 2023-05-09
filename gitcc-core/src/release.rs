@@ -6,7 +6,7 @@ use gitcc_git::discover_repo;
 use itertools::Itertools;
 use serde::{Deserialize, Serialize};
 
-use crate::{Config, Error};
+use crate::Error;
 
 /// Release configuration
 #[derive(Debug, Serialize, Deserialize, Default)]
@@ -17,29 +17,25 @@ pub struct ReleaseConfig {
     pub bump_cmds: Vec<String>,
 }
 
-/// Bumps the package(s) version to the next version
-pub fn exec_bump_commands(cfg: &Config, version: &str) -> Result<Vec<String>, Error> {
-    let mut ran_commands = vec![];
-    for cmd in cfg.release.bump_cmds.iter() {
-        let cmd = cmd.replace("{{version}}", version);
-        ran_commands.push(cmd.clone());
-        let cmd_split = cmd.split(' ').collect::<Vec<_>>();
-        let program = cmd_split[0];
-        let args = cmd_split[1..].iter().copied().collect_vec();
+/// Executes a bump command
+pub fn exec_bump_command(cmd: &str, version: &str) -> Result<(), Error> {
+    let cmd = cmd.replace("{{version}}", version);
+    let cmd_split = cmd.split(' ').collect::<Vec<_>>();
+    let program = cmd_split[0];
+    let args = cmd_split[1..].iter().copied().collect_vec();
 
-        let cmd_res = Command::new(program)
-            .args(&args)
-            .output()
-            .map_err(|err| Error::msg(format!("failed to execute '{cmd}': {err}").as_str()))?;
+    let cmd_res = Command::new(program)
+        .args(&args)
+        .output()
+        .map_err(|err| Error::msg(format!("failed to execute '{cmd}': {err}").as_str()))?;
 
-        if !cmd_res.status.success() {
-            let stderr = String::from_utf8_lossy(&cmd_res.stderr);
-            return Err(Error::msg(
-                format!("failed to execute '{cmd}': {stderr}").as_str(),
-            ));
-        }
+    if !cmd_res.status.success() {
+        let stderr = String::from_utf8_lossy(&cmd_res.stderr);
+        return Err(Error::msg(
+            format!("failed to execute '{cmd}': {stderr}").as_str(),
+        ));
     }
-    Ok(ran_commands)
+    Ok(())
 }
 
 /// Add all changes to the index

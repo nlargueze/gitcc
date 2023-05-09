@@ -50,6 +50,21 @@ pub fn run(args: ReleaseArgs) -> anyhow::Result<()> {
     let next_version = commit_history.next_version_str();
     info!(format!("next version: {}", next_version));
 
+    // before continuing, leave an escape hatch to set the version manually,
+    // or do other checks/tests manually.
+    info!("before committing, bump the packages manually, run tests, etc...");
+    match Confirm::with_theme(&ColorfulTheme::default())
+        .with_prompt("continue ?")
+        .report(true)
+        .default(false)
+        .interact()?
+    {
+        true => {}
+        false => {
+            exit(1);
+        }
+    }
+
     // build the changelog
     let changelog = gitcc_core::build_changelog(
         &cwd,
@@ -85,16 +100,15 @@ pub fn run(args: ReleaseArgs) -> anyhow::Result<()> {
 
     // bump the packages versions
     if !args.dry_run {
-        match gitcc_core::exec_bump_commands(&cfg, &next_version) {
-            Ok(commands) => {
-                for cmd in commands {
-                    eprintln!("executed bump command: {cmd}");
+        for cmd in cfg.release.bump_cmds {
+            match gitcc_core::exec_bump_command(&cmd, &next_version) {
+                Ok(_ok) => {
+                    success!(format!("executed bump command: {cmd}"));
                 }
-                success!("executed bump commands")
-            }
-            Err(err) => {
-                error!(format!("failed to bump packages: {err}"));
-                exit(1);
+                Err(err) => {
+                    error!(format!("failed to bump packages: {err}"));
+                    exit(1);
+                }
             }
         }
     } else {
