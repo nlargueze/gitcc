@@ -8,6 +8,10 @@ All notable changes to this project will be documented in this file.
 
 - feat: added release command [aabfb9b](https://github.com/nlargueze/gitcc.git/commit/aabfb9bb4e21315acc02260d57f430474ac62b4b)
 
+### Bug fixes
+
+- fix: minor fixes [b4fe4f2](https://github.com/nlargueze/gitcc.git/commit/b4fe4f2682b3b865246b14274cb9b2a08061247e)
+
 ## [v0.3.0] - 2023-05-09
 
 https://github.com/nlargueze/gitcc.git/releases/tag/v0.3.0
