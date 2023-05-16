@@ -14,6 +14,9 @@ pub struct ReleaseArgs {
     /// Dry run mode
     #[arg(long)]
     pub dry_run: bool,
+    /// Sets the next version to be v1.0.0
+    #[arg(long)]
+    pub v1: bool,
 }
 
 /// Executes the command `release`
@@ -47,7 +50,11 @@ pub fn run(args: ReleaseArgs) -> anyhow::Result<()> {
 
     // find the next version
     let commit_history = gitcc_core::commit_history(&cwd, &cfg)?;
-    let next_version = commit_history.next_version_str();
+    let mut next_version = commit_history.next_version_str();
+    if args.v1 {
+        warn!(format!("forcing 1st stable release"));
+        next_version = "v1.0.0".to_string();
+    }
     info!(format!("next version: {}", next_version));
 
     // before continuing, leave an escape hatch to set the version manually,

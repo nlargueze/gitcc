@@ -129,7 +129,7 @@ impl VersionIncr {
                     VersionIncr::None => v.clone(),
                     VersionIncr::Patch => Version::new(0, v.minor + 1, 0),
                     VersionIncr::Minor => Version::new(0, v.minor + 1, 0),
-                    VersionIncr::Major => Version::new(1, 0, 0),
+                    VersionIncr::Major => Version::new(0, v.minor + 1, 0),
                 }
             } else {
                 match self {
