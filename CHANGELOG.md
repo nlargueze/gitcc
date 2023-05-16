@@ -2,7 +2,15 @@
     
 All notable changes to this project will be documented in this file.
 
+## [v0.5.0] - 2023-05-16
+
+### New features
+
+- feat(version): added release option to set version t1.0 manually [8e51009](https://github.com/nlargueze/gitcc.git/commit/8e510093a223f156492585320200c4243d6d96ff)
+
 ## [v0.4.0] - 2023-05-09
+
+https://github.com/nlargueze/gitcc.git/releases/tag/v0.4.0
 
 ### New features
 
@@ -11,6 +19,10 @@ All notable changes to this project will be documented in this file.
 ### Bug fixes
 
 - fix: minor fixes [b4fe4f2](https://github.com/nlargueze/gitcc.git/commit/b4fe4f2682b3b865246b14274cb9b2a08061247e)
+
+### Uncategorized
+
+- chore(release): Release v0.4.0 [79f4a54](https://github.com/nlargueze/gitcc.git/commit/79f4a549ddc5d25b74b21bbbc5f13d253370dd12)
 
 ## [v0.3.0] - 2023-05-09
 
